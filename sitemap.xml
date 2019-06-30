@@ -2,18 +2,18 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <sitemap>
-        <loc>http://www.huweihuang.com/post-sitemap.xml</loc>
-        <lastmod>2019-05-04T11:11:13.813Z</lastmod>
+        <loc>https://kamikoliu.github.io/post-sitemap.xml</loc>
+        <lastmod>2019-06-30T12:52:37.030Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>http://www.huweihuang.com/page-sitemap.xml</loc>
-        <lastmod>2019-05-04T11:11:13.907Z</lastmod>
+        <loc>https://kamikoliu.github.io/page-sitemap.xml</loc>
+        <lastmod>2019-06-30T13:13:15.989Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>http://www.huweihuang.com/tag-sitemap.xml</loc>
-        <lastmod>2019-05-04T11:11:13.813Z</lastmod>
+        <loc>https://kamikoliu.github.io/tag-sitemap.xml</loc>
+        <lastmod>2019-06-30T12:52:37.030Z</lastmod>
     </sitemap>
 
 </sitemapindex>
