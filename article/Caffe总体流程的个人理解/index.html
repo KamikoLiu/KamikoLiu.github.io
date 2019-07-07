@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          [Hexo] Blog Building - 刘天赐 | Blog
+          Caffe总体流程的个人理解 - 刘天赐 | Blog
         
     </title>
 
-    <link rel="canonical" href="https://kamikoliu.github.io/article/hexo-theme-huweihuang/">
+    <link rel="canonical" href="https://kamikoliu.github.io/article/Caffe总体流程的个人理解/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -89,14 +89,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+                              <a class="tag" href="/tags/#Caffe" title="Caffe">Caffe</a>
                             
                         </div>
-                        <h1>[Hexo] Blog Building</h1>
-                        <h2 class="subheading">This is my hexo theme Demo.</h2>
+                        <h1>Caffe总体流程的个人理解</h1>
+                        <h2 class="subheading">This is a preliminary understanding of Caffe</h2>
                         <span class="meta">
                             Posted by 刘天赐 on
-                            2017-10-18
+                            2017-11-11
                         </span>
                     </div>
                 
@@ -214,55 +214,20 @@
                 post-container">
 
                 <blockquote>
-<p>This my theme created by <a href="https://kamikoliu.github.io/">Liutianci</a> modified from the original Porter <a href="https://github.com/YenYuHsuan/hexo-theme-beantech" target="_blank" rel="noopener">YuHsuan</a></p>
+<p>       初识Caffe这个深度学习框架，我很想详细讲一下自己一些想法的，然而自己才疏学浅，学艺不精，只能大概讲讲，就当抛砖引玉啦(⊙v⊙)<br>
+       从许多其它博主的分享中，我发现很多人建议caffe从四个层次来理解：Blob、Layer、Net、Solver，我很赞同这种思路。</p>
 </blockquote>
-<h1 id="install-hexo">Install Hexo</h1>
-<p>Install Node.js  and Git</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>For Mac</span><br><span class="line">brew install node</span><br><span class="line">brew install git</span><br></pre></td></tr></table></figure>
-<p>Install hexo</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>For more:https://hexo.io/zh-cn/index.html</span><br></pre></td></tr></table></figure>
-<h1 id="theme-usage">Theme Usage</h1>
-<h2 id="init">Init</h2>
-<hr>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/YuHsuan/hexo-theme-YuHsuan.git ./hexo-YuHsuan</span><br><span class="line"><span class="built_in">cd</span> hexo-YuHsuan</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<h2 id="modify">Modify</h2>
-<hr>
-<p>Modify <code>_config.yml</code> file with your own info.<br>
-Especially the section:</p>
-<h3 id="deployment">Deployment</h3>
-<p>Replace to your own repo!</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/&lt;yourAccount&gt;/&lt;repo&gt;</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">&lt;your-branch&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="sidebar-settings">Sidebar settings</h3>
-<p>Copy your avatar image to <code>&lt;root&gt;/img/</code> and modify the <code>_config.yml</code>:</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sidebar:</span> <span class="literal">true</span>    <span class="comment"># whether or not using Sidebar.</span></span><br><span class="line"><span class="attr">sidebar-about-description:</span> <span class="string">"&lt;your description&gt;"</span></span><br><span class="line"><span class="attr">sidebar-avatar:</span> <span class="string">img/&lt;your</span> <span class="string">avatar</span> <span class="string">path&gt;</span></span><br></pre></td></tr></table></figure>
-<p>and activate your personal widget you like</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">widgets:</span>         <span class="comment"># here are widget you can use, you can comment out</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">featured-tags</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">short-about</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">recent-posts</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">friends-blog</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">archive</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">category</span></span><br></pre></td></tr></table></figure>
-<p>if you want to add sidebar widget, please add at <code>layout/_widget</code>.</p>
-<h3 id="signature-setup">Signature Setup</h3>
-<p>Copy your signature image to <code>&lt;root&gt;/img/signature</code> and modify the <code>_config.yml</code>:</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">signature:</span> <span class="literal">true</span>   <span class="comment"># show signature</span></span><br><span class="line"><span class="attr">signature-img:</span> <span class="string">img/signature/&lt;your-signature-ID&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="go-to-top-icon-setup">Go to top icon Setup</h3>
-<p>My icon is using iron man, you can change to your own icon at <code>css/image</code>.</p>
-<h3 id="post-tag">Post tag</h3>
-<p>You can decide to show post tags or not.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">home_posts_tag:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p><img src="/img/article/tag.png" alt="home_posts_tag-true"></p>
-<h3 id="markdown-render">Markdown render</h3>
-<p>My markdown render engine plugin is <a href="https://github.com/celsomiranda/hexo-renderer-markdown-it" target="_blank" rel="noopener">hexo-renderer-markdown-it</a>.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Markdown-it config</span></span><br><span class="line"><span class="comment">## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki</span></span><br><span class="line"><span class="attr">markdown:</span></span><br><span class="line"><span class="attr">  render:</span></span><br><span class="line"><span class="attr">    html:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    xhtmlOut:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    breaks:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    linkify:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    typographer:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    quotes:</span> <span class="string">'“”‘’'</span></span><br></pre></td></tr></table></figure>
-<p>and if you want to change the header anchor ‘ℬ’, you can go to <code>layout/post.ejs</code> to change it.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span>(<span class="string">"https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        anchors.options = &#123;</span><br><span class="line">          visible: <span class="string">'hover'</span>,</span><br><span class="line">          placement: <span class="string">'left'</span>,</span><br><span class="line">          icon: ℬ <span class="comment">// this is the header anchor "unicode" icon</span></span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="hexo-basics">Hexo Basics</h2>
-<hr>
-<p>Some hexo command:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">"&lt;post name&gt;"</span> <span class="comment"># you can change post to another layout if you want</span></span><br><span class="line">hexo clean &amp;&amp; hexo generate <span class="comment"># generate the static file</span></span><br><span class="line">hexo server <span class="comment"># run hexo in local environment</span></span><br><span class="line">hexo deploy <span class="comment"># hexo will push the static files automatically into the specific branch(gh-pages) of your repo!</span></span><br></pre></td></tr></table></figure>
-<h1 id="have-fun-_">Have fun ^_^</h1>
-<hr>
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<!-- Place this tag where you want the button to render. -->
-<p>Please <a class="github-button" href="https://github.com/YuHsuan/hexo-theme-YuHsuan" data-icon="octicon-star" aria-label="Star YuHsuan/hexo-theme-YuHsuan on GitHub" target="_blank" rel="noopener">Star</a> this Project if you like it! <a class="github-button" href="https://github.com/YuHsuan" aria-label="Follow @YuHsuan on GitHub" target="_blank" rel="noopener">Follow</a> would also be appreciated!<br>
-Peace!</p>
+<h1 id="1blob">1.Blob</h1>
+<p>       Blob是caffe基本的数据结构，用四维矩阵 Batch×Channel×Height×Weight表示，存储了网络的神经元激活值和网络参数，以及相应的梯度（激活值的残差和dW、db)。其中包含有cpu_data、gpu_data、cpu_diff、gpu_diff、mutable_cpu_data、mutable_gpu_data、mutable_cpu_diff、mutable_gpu_diff这一堆很像的东西，分别表示存储在CPU和GPU上的数据（印象中二者的值好像是会自动同步成一致的），其中带data的里面存储的是激活值和W、b，diff中存储的是残差和dW、db，另外带mutable和不带mutable的一对指针所指的位置是相同的，只是不带mutable的只读，而带mutable的可写。</p>
+<h1 id="2layer">2.Layer</h1>
+<p>       Layer代表了神经网络中各种各样的层，组合成一个网络。一般一个图像或样本会从数据层中读进来，然后一层一层的往后传。除了数据层比较特殊之外，其余大部分层都包含4个函数：LayerSetUp、Reshape、Forward、Backward。其中LayerSetup用于初始化层，开辟空间，填充初始值什么的。Reshape是对输入值进行维度变换，比如pooling接全连接层的时候要先拉成一个向量再计算。Forward是前向传播，Backward是后向传播。当然对于我这种喜欢偷懒的童鞋一般学习的时候最喜欢看各种层的Backward函数了，最好是对着公式边推导边看，可以有更直观的理解。<br>
+       那么数据是如何在层之间传递的呢？每一层都会有一个（或多个）Bottom和top，分别存储输入和输出，比如bottom[0]-&gt;cpu_data()存输入的神经元激活值，换成top存输出的，换成cpu_diff()存的是激活值的残差，换成gpu是存在GPU上的数据，再带上mutable就可写了，这些是神经元激活值相关的，如果这个层前后有多个输入输出层，就会有bottom[1]，比如accuracy_layer就有两个输入，fc8和label。而每层的参数会存在this-&gt;blobs_里，一般this-&gt;blobs_[0]存W，this-&gt;blobs_[1]存b，this-&gt;blobs_[0]-&gt;cpu_data()存的是W的值，this-&gt;blobs_[0]-&gt;cpu_diff()存的梯度dW，b和db也类似，然后换成gpu是存在GPU上的数据，再带上mutable就可写了。。（各种变量好多好晕，但愿我说清楚了。。）<br>
+       哦对了，凡是能在GPU上运算的层都会有名字相同的cpp和cu两个文件，cu文件中运算时基本都调用了cuda核函数，可以在math_function.cu中查看。</p>
+<h1 id="3net"><a href="http://3.Net" target="_blank" rel="noopener">3.Net</a></h1>
+<p>       Net就是把各种层按train_val.prototxt的定义堆叠在一起，首先进行每个层的初始化，然后不断进行Update，每更新一次就进行一次整体的前向传播和反向传播，然后把每层计算得到的梯度计算进去，完成一次更新，这里注意每层在Backward中只是计算dW和db，而W和b的更新是在Net的Update里最后一起更新的。而且在caffe里训练模型的时候一般会有两个Net，一个train一个test。刚开始训练网络时前面的一大堆输出，网络的结构什么的也都是这里输出的。</p>
+<h1 id="4solver">4.Solver</h1>
+<p>       Solver是按solver.prototxt的参数定义对Net进行训练，首先会初始化一个TrainNet和一个TestNet，然后其中的Step函数会对网络不断进行迭代，主要就是两个步骤反复迭代：①不断利用ComputeUpdateValue计算迭代相关参数，比如计算learning rate，把weight decay加上什么的，②调用Net的Update函数对整个网络进行更新。迭代中的一大堆输出也是在这里输出的，比如当前的loss和learning rate什么的。<br>
+       综上，为了把整个过程串起来，可以从tools/caffe这个我们最常用的函数入手，训练一个网络然后跟着数据的流动方向看看一个网络是怎么更新的，然后找自己比较感兴趣的地方细看。我本人主要看各种Layer的实现比较多，对其余的部分理解也有限，希望可以一起讨论~</p>
 
                 
 
@@ -270,10 +235,10 @@ Peace!</p>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/Caffe总体流程的个人理解/" data-toggle="tooltip" data-placement="top" title="Caffe总体流程的个人理解">&larr; Previous Post</a>
-                        </li>
                     
+                        <li class="next">
+                            <a href="/article/hexo-theme-huweihuang/" data-toggle="tooltip" data-placement="top" title="[Hexo] Blog Building">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -322,7 +287,7 @@ Peace!</p>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#install-hexo"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Install Hexo</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#theme-usage"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Theme Usage</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#init"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Init</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#modify"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Modify</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#deployment"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">Deployment</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#sidebar-settings"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">Sidebar settings</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#signature-setup"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">Signature Setup</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#go-to-top-icon-setup"><span class="toc-nav-number">2.2.4.</span> <span class="toc-nav-text">Go to top icon Setup</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#post-tag"><span class="toc-nav-number">2.2.5.</span> <span class="toc-nav-text">Post tag</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#markdown-render"><span class="toc-nav-number">2.2.6.</span> <span class="toc-nav-text">Markdown render</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#hexo-basics"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Hexo Basics</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#have-fun-_"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Have fun ^_^</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1blob"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1.Blob</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2layer"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2.Layer</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#3net"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="http://3.Net" target="_blank" rel="noopener">3.Net</a></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#4solver"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">4.Solver</span></a></li></ol>
         
         </div>
       </aside>
@@ -342,7 +307,7 @@ Peace!</p>
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+                          <a class="tag" href="/tags/#Caffe" title="Caffe">Caffe</a>
                         
                     </div>
                 </section>
