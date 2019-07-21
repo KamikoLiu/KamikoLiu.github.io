@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          [Hexo] Blog Building - 刘天赐 | Blog
+          [人工智能] 人工智能的发展历程 - 刘天赐 | Blog
         
     </title>
 
-    <link rel="canonical" href="https://kamikoliu.github.io/article/hexo-theme-huweihuang/">
+    <link rel="canonical" href="https://kamikoliu.github.io/article/人工智能发展历程/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -89,14 +89,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+                              <a class="tag" href="/tags/#人工智能" title="人工智能">人工智能</a>
                             
                         </div>
-                        <h1>[Hexo] Blog Building</h1>
-                        <h2 class="subheading">This is my hexo theme Demo.</h2>
+                        <h1>[人工智能] 人工智能的发展历程</h1>
+                        <h2 class="subheading">Artificial intelligence, hello！</h2>
                         <span class="meta">
                             Posted by 刘天赐 on
-                            2017-10-18
+                            2017-10-19
                         </span>
                     </div>
                 
@@ -214,55 +214,24 @@
                 post-container">
 
                 <blockquote>
-<p>This my theme created by <a href="https://kamikoliu.github.io/">Liutianci</a> modified from the original Porter <a href="https://github.com/YenYuHsuan/hexo-theme-beantech" target="_blank" rel="noopener">YuHsuan</a></p>
+<p>       人工智能，从1956年被提出之后，发展至今已有62年历史，期间积累的人工智能技术和人才，都为我们现在的产品实现落地，并且应用在生活场景中奠定了基础。事实上，人工智能发展至今，有三个阶段是大众普遍认为的：</p>
 </blockquote>
-<h1 id="install-hexo">Install Hexo</h1>
-<p>Install Node.js  and Git</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>For Mac</span><br><span class="line">brew install node</span><br><span class="line">brew install git</span><br></pre></td></tr></table></figure>
-<p>Install hexo</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>For more:https://hexo.io/zh-cn/index.html</span><br></pre></td></tr></table></figure>
-<h1 id="theme-usage">Theme Usage</h1>
-<h2 id="init">Init</h2>
-<hr>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/YuHsuan/hexo-theme-YuHsuan.git ./hexo-YuHsuan</span><br><span class="line"><span class="built_in">cd</span> hexo-YuHsuan</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<h2 id="modify">Modify</h2>
-<hr>
-<p>Modify <code>_config.yml</code> file with your own info.<br>
-Especially the section:</p>
-<h3 id="deployment">Deployment</h3>
-<p>Replace to your own repo!</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/&lt;yourAccount&gt;/&lt;repo&gt;</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">&lt;your-branch&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="sidebar-settings">Sidebar settings</h3>
-<p>Copy your avatar image to <code>&lt;root&gt;/img/</code> and modify the <code>_config.yml</code>:</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sidebar:</span> <span class="literal">true</span>    <span class="comment"># whether or not using Sidebar.</span></span><br><span class="line"><span class="attr">sidebar-about-description:</span> <span class="string">"&lt;your description&gt;"</span></span><br><span class="line"><span class="attr">sidebar-avatar:</span> <span class="string">img/&lt;your</span> <span class="string">avatar</span> <span class="string">path&gt;</span></span><br></pre></td></tr></table></figure>
-<p>and activate your personal widget you like</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">widgets:</span>         <span class="comment"># here are widget you can use, you can comment out</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">featured-tags</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">short-about</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">recent-posts</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">friends-blog</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">archive</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">category</span></span><br></pre></td></tr></table></figure>
-<p>if you want to add sidebar widget, please add at <code>layout/_widget</code>.</p>
-<h3 id="signature-setup">Signature Setup</h3>
-<p>Copy your signature image to <code>&lt;root&gt;/img/signature</code> and modify the <code>_config.yml</code>:</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">signature:</span> <span class="literal">true</span>   <span class="comment"># show signature</span></span><br><span class="line"><span class="attr">signature-img:</span> <span class="string">img/signature/&lt;your-signature-ID&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="go-to-top-icon-setup">Go to top icon Setup</h3>
-<p>My icon is using iron man, you can change to your own icon at <code>css/image</code>.</p>
-<h3 id="post-tag">Post tag</h3>
-<p>You can decide to show post tags or not.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">home_posts_tag:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p><img src="/img/article/tag.png" alt="home_posts_tag-true"></p>
-<h3 id="markdown-render">Markdown render</h3>
-<p>My markdown render engine plugin is <a href="https://github.com/celsomiranda/hexo-renderer-markdown-it" target="_blank" rel="noopener">hexo-renderer-markdown-it</a>.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Markdown-it config</span></span><br><span class="line"><span class="comment">## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki</span></span><br><span class="line"><span class="attr">markdown:</span></span><br><span class="line"><span class="attr">  render:</span></span><br><span class="line"><span class="attr">    html:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    xhtmlOut:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    breaks:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    linkify:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    typographer:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    quotes:</span> <span class="string">'“”‘’'</span></span><br></pre></td></tr></table></figure>
-<p>and if you want to change the header anchor ‘ℬ’, you can go to <code>layout/post.ejs</code> to change it.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span>(<span class="string">"https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        anchors.options = &#123;</span><br><span class="line">          visible: <span class="string">'hover'</span>,</span><br><span class="line">          placement: <span class="string">'left'</span>,</span><br><span class="line">          icon: ℬ <span class="comment">// this is the header anchor "unicode" icon</span></span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="hexo-basics">Hexo Basics</h2>
-<hr>
-<p>Some hexo command:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">"&lt;post name&gt;"</span> <span class="comment"># you can change post to another layout if you want</span></span><br><span class="line">hexo clean &amp;&amp; hexo generate <span class="comment"># generate the static file</span></span><br><span class="line">hexo server <span class="comment"># run hexo in local environment</span></span><br><span class="line">hexo deploy <span class="comment"># hexo will push the static files automatically into the specific branch(gh-pages) of your repo!</span></span><br></pre></td></tr></table></figure>
-<h1 id="have-fun-_">Have fun ^_^</h1>
-<hr>
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<!-- Place this tag where you want the button to render. -->
-<p>Please <a class="github-button" href="https://github.com/YuHsuan/hexo-theme-YuHsuan" data-icon="octicon-star" aria-label="Star YuHsuan/hexo-theme-YuHsuan on GitHub" target="_blank" rel="noopener">Star</a> this Project if you like it! <a class="github-button" href="https://github.com/YuHsuan" aria-label="Follow @YuHsuan on GitHub" target="_blank" rel="noopener">Follow</a> would also be appreciated!<br>
-Peace!</p>
+<h1 id="第一个阶段">第一个阶段</h1>
+<p>       是集中诞生基础理论的阶段，也就是运算智能阶段，这个阶段奠定了人工智能发展的基本规则，它具备存储和计算的能力，并诞生了基本的开发工具，为日后人工智能的研发工具的升级开辟了先河。在这个阶段，技术的发展，尤其是算法的发展，成了推动人工智能进步的最大动力。达特茅斯会议之后，人们对于算法程序和语言开发投入了极大热情，掀起了人工智能发展的第一波高潮。</p>
+<h1 id="第二个阶段">第二个阶段</h1>
+<p>       是数据推动人工智能更新迭代的阶段，可以说是感知智能阶段，这个阶段，可获得和分析的数据飞速增长，不仅磨练和提高了计算的能力，使人工智能的大规模运算成为可能，并且也反过来倒逼了数据的采集、清洗和积累，以及相应的软硬件基础设施的发展——这些都带动了大数据行业的腾飞。大企业在这个阶段发挥出了规模优势，成为了推动人工智能发展第二波高潮的主要动力。</p>
+<h1 id="第三个阶段">第三个阶段</h1>
+<p>       是情境推动人工智能更深入到具体应用的阶段，也即是认知智能，随着人工智能的技术发展和数据积累，行业逐渐发现短期内通用智能和强人工智能是难以实现的，数据分布的情境化特性使得人工智能在特定情境下的垂直发展成为了可能。<br>
+       这个阶段也是我们目前需要克服前进的阶段。认知智能可以让机器具备能理解思考、像人一样能够学习和推理的能力。从而，它不仅能下围棋，还可以当医生、当老师，甚至做律师，可以在很多方面，不光从是代替人类做简单重复的机械式体力劳动，还可以替代人类很多纷繁复杂的脑力劳动，释放出人类更聪明的智慧和灵感。<br>
+       随着人工智能三个阶段不断完善发展，人工智能已经给各行业赋能，并且应用在生活中。</p>
+<h2 id="智-能-安-防">智 能 安 防</h2>
+<p>       随着物联网技术的发展，传统简单被动的安防形式已无法满足日常多样化的生活和工作场景，在大数据、人工智能等技术的带动下，安防向城市化、综合化、主动安防方向发展，智能安防成为当前发展的主流趋势，其应用覆盖了金融、交通、教育等行业，囊括银行机构、政府、学校、家庭等场所。</p>
+<h2 id="智能家居">智能家居</h2>
+<p>       智能家居是以住宅为平台，基于物联网技术，由硬件、软件系统、云计算平台构成的一个家居生态圈，其中包括家居生活中多种产品，涵盖多个家庭生活场景。目前，我国智能家居市场处于启动阶段，尚未进入爆发期，产品渗透率较低，人工智能技术将为行业带来的颠覆性突破。</p>
+<h2 id="智能医疗">智能医疗</h2>
+<p>       人工智能走进医疗方向已经是正在进行的动作了，尤其是在医学影像方面，人工智能的工作效率不但相比人类医生有了急速的提升，更是在病理诊断中表现的尤为突出。通过人工智能技术自动分析，再辅以远程会诊、远程查体等音视频通信应用工具，将是智慧医疗的一个全新业务模式。</p>
+<p>##智能工业<br>
+       工智能的第一个阶段是生产力和生活效率的提升，人工智能最开始的开发都是为了代替大部分劳动力的工作，尤其对于工业，趋势也是尤为明显。如今的智慧工厂已经开始使用大量的人工智能技术算法，虽然还无法全面取代人类，但是采用人类+机器的运营模式后，不但工作效率大幅提升，更给工厂节省了额外开支，最主要的是客户的服务量也有所提升，为企业带来了业务量的激增。</p>
 
                 
 
@@ -270,10 +239,10 @@ Peace!</p>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/人工智能发展历程/" data-toggle="tooltip" data-placement="top" title="[人工智能] 人工智能的发展历程">&larr; Previous Post</a>
-                        </li>
                     
+                        <li class="next">
+                            <a href="/article/hexo-theme-huweihuang/" data-toggle="tooltip" data-placement="top" title="[Hexo] Blog Building">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -322,7 +291,7 @@ Peace!</p>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#install-hexo"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Install Hexo</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#theme-usage"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Theme Usage</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#init"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Init</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#modify"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Modify</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#deployment"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">Deployment</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#sidebar-settings"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">Sidebar settings</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#signature-setup"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">Signature Setup</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#go-to-top-icon-setup"><span class="toc-nav-number">2.2.4.</span> <span class="toc-nav-text">Go to top icon Setup</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#post-tag"><span class="toc-nav-number">2.2.5.</span> <span class="toc-nav-text">Post tag</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#markdown-render"><span class="toc-nav-number">2.2.6.</span> <span class="toc-nav-text">Markdown render</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#hexo-basics"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Hexo Basics</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#have-fun-_"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Have fun ^_^</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第一个阶段"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x7B2C;&#x4E00;&#x4E2A;&#x9636;&#x6BB5;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第二个阶段"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x7B2C;&#x4E8C;&#x4E2A;&#x9636;&#x6BB5;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第三个阶段"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x7B2C;&#x4E09;&#x4E2A;&#x9636;&#x6BB5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#智-能-安-防"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">&#x667A; &#x80FD; &#x5B89; &#x9632;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#智能家居"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">&#x667A;&#x80FD;&#x5BB6;&#x5C45;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#智能医疗"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">&#x667A;&#x80FD;&#x533B;&#x7597;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -342,7 +311,7 @@ Peace!</p>
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+                          <a class="tag" href="/tags/#人工智能" title="人工智能">人工智能</a>
                         
                     </div>
                 </section>
