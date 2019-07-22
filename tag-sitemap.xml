@@ -10,7 +10,14 @@
 
     <url>
         <loc>https://kamikoliu.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</loc>
-        <lastmod>2019-07-21T13:59:29.627Z</lastmod>
+        <lastmod>2019-07-22T08:43:11.042Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+        <lastmod>2019-07-22T13:54:06.862Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
