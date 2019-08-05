@@ -143,6 +143,13 @@
 
                         
                         <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/about/">About</a>
                         </li>
                         
@@ -151,13 +158,6 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -228,6 +228,11 @@
 <h1 id="solver">Solver</h1>
 <p>       Solver是按solver.prototxt的参数定义对Net进行训练，首先会初始化一个TrainNet和一个TestNet，然后其中的Step函数会对网络不断进行迭代，主要就是两个步骤反复迭代：①不断利用ComputeUpdateValue计算迭代相关参数，比如计算learning rate，把weight decay加上什么的，②调用Net的Update函数对整个网络进行更新。迭代中的一大堆输出也是在这里输出的，比如当前的loss和learning rate什么的。<br>
        综上，为了把整个过程串起来，可以从tools/caffe这个我们最常用的函数入手，训练一个网络然后跟着数据的流动方向看看一个网络是怎么更新的，然后找自己比较感兴趣的地方细看。我本人主要看各种Layer的实现比较多，对其余的部分理解也有限，希望可以一起讨论~</p>
+<h1 id="caffe调试">caffe调试</h1>
+<p>       上个星期粗浅的调试了caffe的程序，我从程序的角度理解，主要是根据train函数的内部流程。<br>
+       首先是初始化的过程：train函数先生成solver类的对象，solver对象中有net类的内部变量，所以solver对象生成的同时生成了net类对象，solver对象是根据train函数中传入的prototxt文件来初始化的。<br>
+       同理net类对象里有一个layer类的vector容器，里面实际将会装进各个不同的层，net类对象会通过传入solver类对象的初始化量来找到xxx.prototxt这样的层描述文件中的内容，来初始化这个layer类的vector容器。<br>
+       然后训练的过程：train函数执行solver的solve函数，solve函数会根据设定的参数循环调用net类的forwardbackward函数，net类的forforward和backward函数主要负责控制前向和反相的顺序，按照顺序调用不同的layer前向和反向的函数，而layer类中的forward和backward函数负责不同层实现的细节。</p>
 
                 
 
@@ -235,9 +240,13 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
+                        <li class="previous">
+                            <a href="/article/Caffe-Layers/" data-toggle="tooltip" data-placement="top" title="[Caffe] Caffe Layers">&larr; Previous Post</a>
+                        </li>
+                    
                     
                         <li class="next">
-                            <a href="/article/特征提取相关技术/" data-toggle="tooltip" data-placement="top" title="[特征提取] 传统特征提取相关技术">Next Post &rarr;</a>
+                            <a href="/article/Caffe介绍/" data-toggle="tooltip" data-placement="top" title="[Caffe] Caffe简介">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -287,7 +296,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#blob"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Blob</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#layer"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Layer</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#net"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Net</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#solver"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Solver</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#blob"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Blob</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#layer"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Layer</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#net"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Net</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#solver"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Solver</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#caffe调试"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">caffe&#x8C03;&#x8BD5;</span></a></li></ol>
         
         </div>
       </aside>

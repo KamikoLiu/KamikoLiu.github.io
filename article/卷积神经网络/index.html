@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [深度学习] 卷积神经网络（CNN） - 刘天赐 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://kamikoliu.github.io/article/卷积神经网络/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+	
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#深度学习" title="深度学习">深度学习</a>
+                            
+                        </div>
+                        <h1>[深度学习] 卷积神经网络（CNN）</h1>
+                        <h2 class="subheading">Convolutional neural network.</h2>
+                        <span class="meta">
+                            Posted by 刘天赐 on
+                            2017-11-11
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">刘天赐</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>       卷积神经网络（Convolutional Neural Network，CNN）是一种前馈神经网络，它的人工神经元可以响应一部分覆盖范围内的周围单元，对于大型图像处理有出色表现。 它包括卷积层(convolutional layer)和池化层(pooling layer)。</p>
+</blockquote>
+<h2 id="背景">背景</h2>
+<p>       在神经网络中，每一层的每个神经元都与下一层的每个神经元相连(如下图)， 这种连接关系叫全连接（Full Connected）。如果以图像识别为例，输入就是是每个像素点，那么每一个像素点两两之间的关系(无论相隔多远)，都被下一层的神经元&quot;计算&quot;了。<br>
+这种全连接的方法用在图像识别上面就显得太&quot;笨&quot;了，因为图像识别首先得找到图片中各个部分的&quot;边缘&quot;和&quot;轮廓&quot;，而&quot;边缘&quot;和&quot;轮廓&quot;只与相邻近的像素们有关。<br>
+这个时候卷积神经网络(CNN)就派上用场了，卷积神经网络可以简单地理解为，用滤波器(Filter)将相邻像素之间的&quot;轮廓&quot;过滤出来。<br>
+<img src="1.png" alt=""></p>
+<h2 id="卷积convolution">卷积(Convolution)</h2>
+<p>       卷积的滤波器（Filter）是如何工作的呢？以下图，一个6x6的图片被一个3x3的滤波器（可以看成一个窗口）卷积为例，3x3的滤波器先和6x6的图片最左上角的3x3矩阵卷积得到结果后，再向右移一步继续卷积（窗口滑动），直到将整个图片过滤完成，输出一个4x4的矩阵(图片)。<br>
+<img src="2.png" alt=""><br>
+       这样有什么意义呢？如果如下图所示，被卷积的图片有明显的竖直轮廓（10和0之间有一轮廓，这条轮廓需要被标记出来），用3x3的竖直轮廓滤波器卷积之后，就能发现中间那条非常明显的竖直轮廓（中间30的两个竖排矩阵将竖直的轮廓位置明显地标记了出来）。<br>
+<img src="3.png" alt=""></p>
+<h2 id="填充padding">填充(Padding)</h2>
+<p>       上面的例子用3x3的将6x6的图片过滤之后输出了一个4x4的图片，那如果我想保证输入和输出的图片尺寸一致怎么办？这个时候我们可以在原图片的边缘进行填充(Padding)，以保证输入和输出的图片尺寸一致。下图就是用0在原图上Padding了一圈。<br>
+<img src="4.png" alt=""></p>
+<h2 id="步长-stride">步长 (Stride)</h2>
+<p>       上面提到用3x3的过滤器去卷积6x6的图片是通过窗口一步一步的移动最终将整个图片卷积完成的，实际上移动的步伐可以迈得更大，这个步伐的长度就叫做步长(Stride)。步长(Stride)和填充(Padding)的大小一起决定了输出层图像的尺寸。<br>
+<img src="5.png" alt=""></p>
+<h2 id="深度depth">深度(Depth)</h2>
+<p>       这里的深度是指输出层图片的深度，通常图片有红绿蓝(RGB)三个颜色通道(Channel)，那一个滤波器也需要三层滤波器对每个颜色通道进行过滤，于是6x6x3的图片经过3x3x3的滤波器过滤之后最终会得到一个4x4x1的图片，此时输出层图片的深度就是1。<br>
+<img src="6.png" alt=""><br>
+       增加滤波器的个数就能增加输出层图片的深度，同时滤波器的个数也决定了输出层图片的深度（两者相等）。下图两个3x3x3的滤波器将6x6x3的图片过滤得到一个4x4x2的图片。<br>
+<img src="7.png" alt=""></p>
+<h2 id="单层完整的cnn">单层完整的CNN</h2>
+<p>       全连接的DNN，每一层包含一个线性函数和一个激活函数，CNN也一样，在滤波器之后还需要一个激活层，在图像识别应用中，激活层通常用的是Relu函数。线性函数有权重W和偏置b，CNN的权重W就是滤波器的数值，偏置b可以加在Relu之后，一个完整的CNN层如下：<br>
+<img src="8.png" alt=""></p>
+<h2 id="池化pooling">池化(Pooling)</h2>
+<p>       用滤波器进行窗口滑动过程中，实际上&quot;重叠&quot;计算了很多冗余的信息，而池化操作就是去除这些冗余信息，并加快运动。Pooling的方式其实有多种，用的最多的是max-pooling就是取一个区域中最大的值，如图将一个4x4的图片max-pooling 一个2x2的图片。<br>
+<img src="9.png" alt=""></p>
+<h2 id="一个完整的深度cnn网络">一个完整的深度CNN网络</h2>
+<p>       一个完整的深度CNN网络，通常由多个卷积层加池化层和最后一个或多个完整层(Full connected(FC))构成，如图：<br>
+<img src="10.png" alt=""><br>
+       好了，深度卷积神经网络就介绍完了，中间引入了不少概念，理解了这些概念其实CNN网络也十分简单。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/卷积计算与神经元的关系/" data-toggle="tooltip" data-placement="top" title="[深度学习] 卷积计算与神经元的关系">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/深度学习/" data-toggle="tooltip" data-placement="top" title="[机器学习] 深度学习">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#背景"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x80CC;&#x666F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#卷积convolution"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5377;&#x79EF;(Convolution)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#填充padding"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x586B;&#x5145;(Padding)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#步长-stride"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x6B65;&#x957F; (Stride)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#深度depth"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x6DF1;&#x5EA6;(Depth)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#单层完整的cnn"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">&#x5355;&#x5C42;&#x5B8C;&#x6574;&#x7684;CNN</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#池化pooling"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">&#x6C60;&#x5316;(Pooling)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一个完整的深度cnn网络"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684;&#x6DF1;&#x5EA6;CNN&#x7F51;&#x7EDC;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#深度学习" title="深度学习">深度学习</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">CSDN Blog 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">DockOne 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">阿里云栖社区 刘天赐</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/KamikoLiu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 刘天赐 2019 
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://kamikoliu.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://kamikoliu.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

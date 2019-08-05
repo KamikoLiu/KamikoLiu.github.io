@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          刘天赐 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://kamikoliu.github.io/archives/2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+	
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/header_img/home.jpg') 
+            /*config*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="site-heading">
+                        <h1>刘天赐</h1>
+                        <!--<hr class="small">-->
+                        <span class="subheading">个人博客</span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">刘天赐</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/article/Caffe-LeNet/">
+        <h2 class="post-title">
+            [Caffe] LeNet 网络模型理解
+        </h2>
+        <h3 class="post-subtitle">
+            Understanding of LeNet neural network model.
+        </h3>
+        <div class="post-content-preview">
+            
+       Caffe的模型具有两个重要的参数文件：网络模型和参数配置，分别是*.prototxt和*.solver.prototxt
+
+LeNet网络介绍
+       LeNet-5模型，大神Yann LeCun的作品，用以手写字体的识别，在邮编识别上得到应用，论文 《Gradient-Based Learning Applied to Document Recognition》堪称......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-12-12
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/正则化/">
+        <h2 class="post-title">
+            [深度学习] 深度学习中的正则化
+        </h2>
+        <h3 class="post-subtitle">
+            Regularization in deep learning.
+        </h3>
+        <div class="post-content-preview">
+            
+       为了理解正则化在深度学习中的作用，我以回归问题为例来进行理解。
+
+
+       如图，假设我们现在要根据图中的六个点拟合出数据的分布曲线，用于预测其他x坐标对应的y值，我们使用如下的多项式进行拟合：
+       y=a0+a1*x+a2*x^2+a3*x^3+…
+       假如一开始，只有a0和a1不为0，其他系数a都为0，拟合函数就变成了：y=a0+a1*x, 拟合......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-12-08
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#深度学习" title="深度学习">深度学习</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/反向传播/">
+        <h2 class="post-title">
+            [Caffe] 误差的反向传播
+        </h2>
+        <h3 class="post-subtitle">
+            Back propagation of error.
+        </h3>
+        <div class="post-content-preview">
+            
+       分类的CNN是有监督的，就是在最后一层计算分类结果的loss，然后利用这个loss对整个网络进行更新，更新的关键就是计算梯度和偏置的导数dW和db，而Back Propagation主要就是为了解决前面的层的dW不容易计算的问题，具体是将loss通过一个残差delta一层一层往前传，因此无论是全连接层还是卷积层，全部是有监督的。
+
+       假设代价函数为：
+
+     ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-12-06
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Caffe-Layers/">
+        <h2 class="post-title">
+            [Caffe] Caffe Layers
+        </h2>
+        <h3 class="post-subtitle">
+            Convolutional Architecture for Fast Feature Embedding Layers.
+        </h3>
+        <div class="post-content-preview">
+            
+       caffe要实现神经网络的前向以及反向传播计算需要两个要素：一个是数据，一个是算法。
+       先说数据:caffe定义了blob类，用来存储训练时的数据。然后是算法：首先我们知道深度学习有很多种类型的层，比如卷积，pooling，RELU等。
+
+
+Data Layers
+Data
+
+
+
+参数
+描述
+备注
+
+
+
+
+source
+数据库文件的路径
+必填
+
+
+batch_si......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-12-02
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Caffe总体流程的个人理解/">
+        <h2 class="post-title">
+            [Caffe] Caffe总体流程的个人理解
+        </h2>
+        <h3 class="post-subtitle">
+            This is a preliminary understanding of Caffe.
+        </h3>
+        <div class="post-content-preview">
+            
+       初识Caffe这个深度学习框架，我很想详细讲一下自己一些想法的，然而自己才疏学浅，学艺不精，只能大概讲讲，就当抛砖引玉啦(⊙v⊙)
+       从许多其它博主的分享中，我发现很多人建议caffe从四个层次来理解：Blob、Layer、Net、Solver，我很赞同这种思路。
+
+Blob
+       Blob是caffe基本的数据结构，用四维矩阵 Batch×Channel......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-11-30
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Caffe介绍/">
+        <h2 class="post-title">
+            [Caffe] Caffe简介
+        </h2>
+        <h3 class="post-subtitle">
+            Convolutional Architecture for Fast Feature Embedding.
+        </h3>
+        <div class="post-content-preview">
+            
+       Caffe是一个清晰而高效的深度学习框架，其作者是博士毕业于UC Berkeley的贾扬清，目前在Google工作。
+       Caffe是纯粹的C++/CUDA架构，支持命令行、Python和MATLAB接口；可以在CPU和GPU直接无缝切换：
+
+1Caffe::set_mode(Caffe::GPU);
+Caffe的优势
+       （1）上手快：模型与相应优化都是......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-11-23
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/卷积计算与神经元的关系/">
+        <h2 class="post-title">
+            [深度学习] 卷积计算与神经元的关系
+        </h2>
+        <h3 class="post-subtitle">
+            The relationship between convolution calculation and neurons.
+        </h3>
+        <div class="post-content-preview">
+            
+       卷积神经网络（Convolutional Neural Network，CNN）是一种前馈神经网络，它的人工神经元可以响应一部分覆盖范围内的周围单元，对于大型图像处理有出色表现。 它包括卷积层(convolutional layer)和池化层(pooling layer)。
+
+       通常的神经网络是通过连接多层的神经元对输入的向量进行处理，数据和神经元是全连接的形式，......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-11-12
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#深度学习" title="深度学习">深度学习</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/卷积神经网络/">
+        <h2 class="post-title">
+            [深度学习] 卷积神经网络（CNN）
+        </h2>
+        <h3 class="post-subtitle">
+            Convolutional neural network.
+        </h3>
+        <div class="post-content-preview">
+            
+       卷积神经网络（Convolutional Neural Network，CNN）是一种前馈神经网络，它的人工神经元可以响应一部分覆盖范围内的周围单元，对于大型图像处理有出色表现。 它包括卷积层(convolutional layer)和池化层(pooling layer)。
+
+背景
+       在神经网络中，每一层的每个神经元都与下一层的每个神经元相连(如下图)， 这种连接......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-11-11
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#深度学习" title="深度学习">深度学习</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/深度学习/">
+        <h2 class="post-title">
+            [机器学习] 深度学习
+        </h2>
+        <h3 class="post-subtitle">
+            Machine Learning and Deep Learning.
+        </h3>
+        <div class="post-content-preview">
+            
+       我们都熟悉“人工智能”这个词。但你最近可能听说过“机器学习” ( Machine Learning )和“深度学习” ( Deep Learning ) 等其他术语，它们有时会与人工智能 ( AI ) 互换使用。因此，人工智能、机器学习和深度学习之间的区别可能非常不清楚。关于这个主题的文章通常都有很多的高等数学、代码，或者是其他令人困惑的高层次，以致于无法触及。通过本文，您将......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-11-05
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#机器学习" title="机器学习">机器学习</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/支持向量机/">
+        <h2 class="post-title">
+            [机器学习] 支持向量机（SVM）
+        </h2>
+        <h3 class="post-subtitle">
+            SVM (Support Vector Machine) Chinese name is a support vector machine, which is a common method of discrimination.
+        </h3>
+        <div class="post-content-preview">
+            
+       支持向量机算法作为机器学习领域的经典算法，从被提出开始提出后快速发展，在很多场景和领域都取得了非常好的效果，同时兼有数度快，支持数据量级大（相对经典机器学习算法）等特点使其在工程实践中的得到了广泛的应用。
+
+间隔最大化
+       要理解svm我们需要先理解什么是间隔最大化，首先从简单的线性二分类开始开始说起。要想对不用的样本空间分开来，如下如所示，需要找出一条线将不同分类......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2017-11-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#机器学习" title="机器学习">机器学习</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/">&larr; Newer Posts</a>
+        </li>
+    
+    
+        <li class="next">
+            <a href="/archives/3/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <br>
+
+                <!-- require APlayer -->
+                
+
+                <!-- 如果开启评论功能 -->
+                
+            </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+            
+            <a href="/tags/#神经网络" title="神经网络" rel="1">神经网络</a>
+            
+        
+            
+            <a href="/tags/#Caffe" title="Caffe" rel="7">Caffe</a>
+            
+        
+            
+            <a href="/tags/#Hexo" title="Hexo" rel="1">Hexo</a>
+            
+        
+            
+            <a href="/tags/#人工智能" title="人工智能" rel="1">人工智能</a>
+            
+        
+            
+            <a href="/tags/#深度学习" title="深度学习" rel="3">深度学习</a>
+            
+        
+            
+            <a href="/tags/#机器学习" title="机器学习" rel="4">机器学习</a>
+            
+        
+            
+            <a href="/tags/#特征提取" title="特征提取" rel="1">特征提取</a>
+            
+        
+    </div>
+</section>
+
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
+
+        
+            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
+        
+
+        
+            <p>Everything that kills me makes me feel alive.</p>
+        
+
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+            
+            
+
+            
+
+            
+
+            
+                <li>
+                    <a target="_blank"  href="https://github.com/KamikoLiu">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
+
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/article/Kaggle项目实践：猫狗分类检测/">Kaggle项目实践：猫狗分类检测</a>
+        </li>
+      
+        <li>
+          <a href="/article/Kaggle项目实践：人脸特征检测/">Kaggle项目实践：人脸特征检测</a>
+        </li>
+      
+        <li>
+          <a href="/article/Caffe-SSD模型/">Caffe SSD模型</a>
+        </li>
+      
+        <li>
+          <a href="/article/Caffe-Faster-Rcnn模型/">Caffe Faster-Rcnn模型</a>
+        </li>
+      
+        <li>
+          <a href="/article/Caffe-Fast-Rcnn模型/">Caffe Fast-Rcnn模型</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        <hr>
+    
+        <!-- Friends Blog -->
+
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+
+    
+        <li><a href="https://kamikoliu.github.io/" target="_blank">CSDN Blog 刘天赐</a></li>
+    
+        <li><a href="https://kamikoliu.github.io/" target="_blank">DockOne 刘天赐</a></li>
+    
+        <li><a href="https://kamikoliu.github.io/" target="_blank">阿里云栖社区 刘天赐</a></li>
+    
+</ul>
+
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/KamikoLiu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 刘天赐 2019 
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://kamikoliu.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://kamikoliu.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

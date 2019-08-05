@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [机器学习] 随机森林 - 刘天赐 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://kamikoliu.github.io/article/随机森林/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+	
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#机器学习" title="机器学习">机器学习</a>
+                            
+                        </div>
+                        <h1>[机器学习] 随机森林</h1>
+                        <h2 class="subheading">Random Forest Classifier.</h2>
+                        <span class="meta">
+                            Posted by 刘天赐 on
+                            2017-10-29
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">刘天赐</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>       随机森林是一种灵活且易于使用的机器学习算法，即便没有超参数调优，也可以在大多数情况下得到很好的结果。它也是最常用的算法之一，因为它很简易，既可用于分类也能用于回归任务。 在这篇文章中，你将了解到随机森林算法的工作原理以及适用范围。</p>
+</blockquote>
+<h2 id="随机森林算法工作原理">随机森林算法工作原理</h2>
+<p>       随机森林是一种有监督学习算法。就像你所看到的它的名字一样，它创建了一个森林，并使它拥有某种方式随机性。 所构建的“森林”是决策树的集成，大部分时候都是用“bagging”方法训练的。 bagging方法，即bootstrap aggregating，采用的是随机有放回的选择训练数据然后构造分类器，最后组合学习到的模型来增加整体的效果。<br>
+       简而言之：随机森林建立了多个决策树，并将它们合并在一起以获得更准确和稳定的预测。随机森林的一大优势在于它既可用于分类，也可用于回归问题，这两类问题恰好构成了当前的大多数机器学习系统所需要面对的。 接下来，将探讨随机森林如何用于分类问题，因为分类有时被认为是机器学习的基石。 下图，你可以看到两棵树的随机森林是什么样子的：<br>
+<img src="1.png" alt=""><br>
+       除了少数例外，随机森林分类器使用所有的决策树分类器以及bagging 分类器的超参数来控制整体结构。 与其先构建bagging分类器，并将其传递给决策树分类器，您可以直接使用随机森林分类器类，这样对于决策树而言，更加方便和优化。要注意的是，回归问题同样有一个随机森林回归器与之相对应。<br>
+<img src="2.png" alt=""><br>
+       随机森林算法中树的增长会给模型带来额外的随机性。与决策树不同的是，每个节点被分割成最小化误差的最佳特征，在随机森林中我们选择随机选择的特征来构建最佳分割。因此，当您在随机森林中，仅考虑用于分割节点的随机子集，甚至可以通过在每个特征上使用随机阈值来使树更加随机，而不是如正常的决策树一样搜索最佳阈值。这个过程产生了广泛的多样性，通常可以得到更好的模型。</p>
+<h2 id="一个更容易理解算法的例子">一个更容易理解算法的例子</h2>
+<p>       想象一下，一个名叫安德鲁的人，想知道一年的假期旅行中他应该去哪些地方。他会向了解他的朋友们咨询建议。<br>
+       起初，他去寻找一位朋友，这位朋友会问安德鲁他曾经去过哪些地方，他喜欢还是不喜欢这些地方。基于这些回答就能给安德鲁一些建议，这便是一种典型的决策树算法。<br>
+       朋友通过安德鲁的回答，为其制定出一些规则来指导应当推荐的地方。随后，安德鲁开始寻求越来越多朋友们的建议，他们会问他不同的问题，并从中给出一些建议。 最后，安德鲁选择了推荐最多的地方，这便是典型的随机森林算法。</p>
+<h2 id="随机森林算法的特征的重要性">随机森林算法的特征的重要性</h2>
+<p>       随机森林算法的另一个优点是可以很容易地测量每个特征对预测的相对重要性。 Sklearn为此提供了一个很好的工具，它通过查看使用该特征减少了森林中所有树多少的不纯度，来衡量特征的重要性。它在训练后自动计算每个特征的得分，并对结果进行标准化，以使所有特征的重要性总和等于1。<br>
+       如果你不了解决策树是如何工作对，也不知道什么是叶子或节点，可以参考维基百科的描述：在决策树中，每个内部节点代表对一类属性的“测试”（例如，抛硬币的结果是正面还是反面)，每个分支代表测试的结果，每个叶节点代表一个类标签（在计算所有属性之后作出的决定）。叶子就是没有下一分支的节点。<br>
+<img src="3.png" alt=""><br>
+       通过查看特征的重要性，您可以知道哪些特征对预测过程没有足够贡献或没有贡献，从而决定是否丢弃它们。这是十分重要的，因为一般而言机器学习拥有的特征越多，模型就越有可能过拟合，反之亦然。<br>
+       下面你可以看到一个表格和一个可视化图表，显示了13个特征的重要性，我在有监督分类项目中使用了kaggle上着名的Titanic 数据集。<br>
+<img src="4.png" alt=""></p>
+<h2 id="决策树与随机森林的区别">决策树与随机森林的区别</h2>
+<p>       正如我先前提到的，随机森林是决策树的集合，但仍有一些区别。<br>
+<img src="5.png" alt=""><br>
+       如果您将带有特征和标签的训练数据集输入到决策树中，它将制定一些规则集，用于预测。<br>
+       例如，如果您想预测某人是否会点击在线广告，可以收集该广告的过去点击人员以及能够描述其做决定的特征。一旦你将这些特征和标签放入决策树中，它会生成节点和一些规则，然后你就可以预测广告是否会被点击。但决策树通常通过计算信息增益和基尼指数来生成节点和规则时，相比之下，随机森林则是随机的。<br>
+       另一个区别是“深度”决策树往往会遭遇过拟合问题。而随机森林则可以通过创建随机的特征子集并使用这些子集构建较小的树，随后组成子树，这种方法可以防止大部分情况的过拟合。要注意的是，这同时会使得计算速度变慢，并取决于随机森林构建的树数。</p>
+<h2 id="随机森林算法重要的超参数">随机森林算法重要的超参数</h2>
+<p>       随机森林中的参数要么用来增强模型的预测能力，要么使模型更快。 以下将讨论sklearns内置的随机森林函数中的超参数。<br>
+<img src="6.png" alt=""><br>
+       首先，“n_estimators”超参数表示算法在进行最大投票或采取预测平均值之前建立的树数。 一般来说，树的数量越多，性能越好，预测也越稳定，但这也会减慢计算速度。<br>
+       另一个重要的超参数是“max_features”，它表示随机森林在单个树中可拥有的特征最大数量。 Sklearn提供了几个选项，在他们的文档中有描述：<br>
+<a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html</a><br>
+       最后一个重要的超参数是“min_sample_leaf”，正如其名称所述，这决定了叶子的数量。<br>
+       “n_jobs”超参数表示引擎允许使用处理器的数量。 若值为1，则只能使用一个处理器。 值为-1则表示没有限制。<br>
+       “random_state”，表示随机数种子，保证模型的输出具有可复制性。 当它被赋于一个指定值，且模型训练具有相同的参数和相同的训练数据时，该模型将始终产生相同的结果。<br>
+       最后，还有一个“oob_score”（也称为oob采样），它是一种随机森林交叉验证方法。 在这个抽样中，大约三分之一的数据不用于模型训练，而用来评估模型的性能。这些样本被称为袋外样本。它与留一法交叉验证方法非常相似，但几乎没有附加的计算负担。</p>
+<h2 id="随机森林实现过程">随机森林实现过程</h2>
+<p>       随机森林中的每一棵分类树为二叉树，其生成遵循自顶向下的递归分裂原则，即从根节点开始依次对训练集进行划分；在二叉树中，根节点包含全部训练数据， 按照节点纯度最小原则，分裂为左节点和右节点，它们分别包含训练数据的一个子集，按照同样的规则节点继续分裂，直到满足分支停止规则而停止生长。若节点n上的分类数据全部来自于同一类别，则此节点的纯度I(n)=0，纯度度量方法是Gini准则，即假设P(Xj)是节点n上属于Xj 类样本个数占训练。<br>
+       具体实现过程如下：<br>
+       （1）原始训练集为N，应用bootstrap法有放回地随机抽取k个新的自助样本集，并由此构建k棵分类树，每次未被抽到的样本组成了k个袋外数据。<br>
+       （2）设有mall个变量，则在每一棵树的每个节点处随机抽取mtry个变量(mtry n mall)，然后在mtry中选择一个最具有分类能力的变量，变量分类的阈值通过检查每一个分类点确定。<br>
+       （3）每棵树最大限度地生长, 不做任何修剪。<br>
+       （4）将生成的多棵分类树组成随机森林，用随机森林分类器对新的数据进行判别与分类，分类结果按树分类器的投票多少而定。</p>
+<h2 id="优缺点分析">优缺点分析</h2>
+<p>       就像我之前提到的那样，随机森林的一个优点是它可以用于回归和分类任务，并且很容易查看模型的输入特征的相对重要性。<br>
+       随机森林同时也被认为是一种非常方便且易于使用的算法，因为它是默认的超参数通常会产生一个很好的预测结果。超参数的数量也不是那么多，而且它们所代表的含义直观易懂。<br>
+       机器学习中的一个重大问题是过拟合，但大多数情况下这对于随机森林分类器而言不会那么容易出现。因为只要森林中有足够多的树，分类器就不会过度拟合模型。<br>
+       随机森林的主要限制在于使用大量的树会使算法变得很慢，并且无法做到实时预测。一般而言，这些算法训练速度很快，预测十分缓慢。越准确的预测需要越多的树，这将导致模型越慢。在大多数现实世界的应用中，随机森林算法已经足够快，但肯定会遇到实时性要求很高的情况，那就只能首选其他方法。<br>
+       当然，随机森林是一种预测性建模工具，而不是一种描述性工具。也就是说，如果您正在寻找关于数据中关系的描述，那建议首选其他方法。</p>
+<h2 id="适用范围">适用范围</h2>
+<p>       随机森林算法可被用于很多不同的领域，如银行，股票市场，医药和电子商务。 在银行领域，它通常被用来检测那些比普通人更高频率使用银行服务的客户，并及时偿还他们的债务。 同时，它也会被用来检测那些想诈骗银行的客户。 在金融领域，它可用于预测未来股票的趋势。 在医疗保健领域，它可用于识别药品成分的正确组合，分析患者的病史以识别疾病。 除此之外，在电子商务领域中，随机森林可以被用来确定客户是否真的喜欢某个产品。</p>
+<h2 id="总-结">总 结</h2>
+<p>       随机森林是一种很好的算法，适合在模型开发过程的早期进行训练，了解它的工作原理，并且由于其简易性，很难构建出“糟糕”的随机森林。 如果您需要在短时间内开发模型，随机森林会是一个不错的选择。 最重要的是，它为你选择的特征提供了一个很好的重要性表示。<br>
+       随机森林在性能方面也很难被击败。 当然，没有最好只有更好，你总能找到一个性能更好的模型，比如神经网络，但这类模型通常需要更多的时间来开发。 最重要的是，随机森林同时可以处理许多不同属性的特征类型，如二元的，类别的和数值的。总的来说，随机森林是一个（相对大部分而言）快速，简单且灵活的工具，尽管它存在一定的局限性。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/支持向量机/" data-toggle="tooltip" data-placement="top" title="[机器学习] 支持向量机（SVM）">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/BP神经网络/" data-toggle="tooltip" data-placement="top" title="[神经网络] BP神经网络">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#随机森林算法工作原理"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x968F;&#x673A;&#x68EE;&#x6797;&#x7B97;&#x6CD5;&#x5DE5;&#x4F5C;&#x539F;&#x7406;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一个更容易理解算法的例子"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x4E00;&#x4E2A;&#x66F4;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#x7B97;&#x6CD5;&#x7684;&#x4F8B;&#x5B50;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#随机森林算法的特征的重要性"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x968F;&#x673A;&#x68EE;&#x6797;&#x7B97;&#x6CD5;&#x7684;&#x7279;&#x5F81;&#x7684;&#x91CD;&#x8981;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#决策树与随机森林的区别"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x51B3;&#x7B56;&#x6811;&#x4E0E;&#x968F;&#x673A;&#x68EE;&#x6797;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#随机森林算法重要的超参数"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x968F;&#x673A;&#x68EE;&#x6797;&#x7B97;&#x6CD5;&#x91CD;&#x8981;&#x7684;&#x8D85;&#x53C2;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#随机森林实现过程"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">&#x968F;&#x673A;&#x68EE;&#x6797;&#x5B9E;&#x73B0;&#x8FC7;&#x7A0B;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#优缺点分析"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">&#x4F18;&#x7F3A;&#x70B9;&#x5206;&#x6790;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#适用范围"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">&#x9002;&#x7528;&#x8303;&#x56F4;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总-结"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">&#x603B; &#x7ED3;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#机器学习" title="机器学习">机器学习</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">CSDN Blog 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">DockOne 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">阿里云栖社区 刘天赐</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/KamikoLiu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 刘天赐 2019 
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://kamikoliu.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://kamikoliu.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

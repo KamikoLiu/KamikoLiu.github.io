@@ -7,8 +7,120 @@
     </url>
 
     <url>
-        <loc>https://kamikoliu.github.io/article/%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/</loc>
-        <lastmod>2019-07-24T15:12:12.623Z</lastmod>
+        <loc>https://kamikoliu.github.io/article/Caffe-GoogleLeNet%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T09:19:49.400Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-AlexNet%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T08:35:34.081Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Kaggle%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5%EF%BC%9A%E7%8C%AB%E7%8B%97%E5%88%86%E7%B1%BB%E6%A3%80%E6%B5%8B/</loc>
+        <lastmod>2019-08-05T06:45:35.291Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Kaggle%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5%EF%BC%9A%E4%BA%BA%E8%84%B8%E7%89%B9%E5%BE%81%E6%A3%80%E6%B5%8B/</loc>
+        <lastmod>2019-08-05T06:45:24.214Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-SSD%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:44:53.118Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-Faster-Rcnn%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:44:14.436Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-Fast-Rcnn%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:44:01.817Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-RCNN%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:43:39.623Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-FCN%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:43:19.002Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-VGGNET%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:42:29.053Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe%E4%BB%8B%E7%BB%8D/</loc>
+        <lastmod>2019-08-05T06:34:08.238Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-LeNet/</loc>
+        <lastmod>2019-08-04T12:16:19.157Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/%E6%AD%A3%E5%88%99%E5%8C%96/</loc>
+        <lastmod>2019-08-02T13:54:37.011Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</loc>
+        <lastmod>2019-08-02T13:34:04.748Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-Layers/</loc>
+        <lastmod>2019-08-02T13:01:36.342Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -16,7 +128,63 @@
 
     <url>
         <loc>https://kamikoliu.github.io/article/Caffe%E6%80%BB%E4%BD%93%E6%B5%81%E7%A8%8B%E7%9A%84%E4%B8%AA%E4%BA%BA%E7%90%86%E8%A7%A3/</loc>
-        <lastmod>2019-07-24T15:10:00.598Z</lastmod>
+        <lastmod>2019-07-31T08:30:55.305Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E4%B8%8E%E7%A5%9E%E7%BB%8F%E5%85%83%E7%9A%84%E5%85%B3%E7%B3%BB/</loc>
+        <lastmod>2019-07-29T08:58:57.673Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+        <lastmod>2019-07-28T13:44:13.354Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
+        <lastmod>2019-07-28T12:31:11.930Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</loc>
+        <lastmod>2019-07-28T08:57:55.677Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/</loc>
+        <lastmod>2019-07-27T13:34:41.399Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+        <lastmod>2019-07-27T11:28:21.651Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/</loc>
+        <lastmod>2019-07-24T15:12:12.623Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
