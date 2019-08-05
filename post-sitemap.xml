@@ -7,6 +7,22 @@
     </url>
 
     <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-FCN%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T13:06:23.914Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-VGGNET%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T12:26:30.601Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://kamikoliu.github.io/article/Caffe-GoogleLeNet%E6%A8%A1%E5%9E%8B/</loc>
         <lastmod>2019-08-05T09:19:49.400Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -65,22 +81,6 @@
     <url>
         <loc>https://kamikoliu.github.io/article/Caffe-RCNN%E6%A8%A1%E5%9E%8B/</loc>
         <lastmod>2019-08-05T06:43:39.623Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://kamikoliu.github.io/article/Caffe-FCN%E6%A8%A1%E5%9E%8B/</loc>
-        <lastmod>2019-08-05T06:43:19.002Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://kamikoliu.github.io/article/Caffe-VGGNET%E6%A8%A1%E5%9E%8B/</loc>
-        <lastmod>2019-08-05T06:42:29.053Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
