@@ -14,7 +14,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Caffe SSD模型 - 刘天赐 | Blog
+          [Caffe] FCN 网络模型理解 - 刘天赐 | Blog
         
     </title>
 
@@ -72,7 +72,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/article_header/article_bg.jpg')
+            background-image: url('/img/article_header/article_header.png')
             /*post*/
         
     }
@@ -89,12 +89,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
+                              <a class="tag" href="/tags/#Caffe" title="Caffe">Caffe</a>
+                            
                         </div>
-                        <h1>Caffe SSD模型</h1>
-                        <h2 class="subheading"></h2>
+                        <h1>[Caffe] FCN 网络模型理解</h1>
+                        <h2 class="subheading">Understanding of SSD neural network model.</h2>
                         <span class="meta">
                             Posted by 刘天赐 on
-                            2019-08-05
+                            2018-09-20
                         </span>
                     </div>
                 
@@ -211,7 +213,69 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                
+                <blockquote>
+<p>论文<a href="SSD.pdf">《SSD:Single Shot MultiBox Detector》</a> 是图像分割的milestone论文。</p>
+</blockquote>
+<h2 id="引言">引言</h2>
+<p>SSD方法带来的提升和贡献：<br>
+提出一个one-stage的目标检测方法：在速度比同为one-stage方法YOLO v1快的同时精度能达到two-stage方法Faster-RCNN的水平；<br>
+SSD的核心思想是用小尺寸卷积核对预设的bbox预测对应的classes score和coord offsets；<br>
+在不同尺寸的feature map上预测不同长宽比例的bbox提升检测精度；<br>
+实现了同时权衡精度和速度的端到端的目标检测训练框架；<br>
+在实验阶段进行了全方位的速度和性能的对比；</p>
+<p>传统的目标检测会在 subimage 中的所有尺寸的box 进行检测，这种方法会检测所有可能的位置和尺寸，十分困难，例如fast-rcnn<br>
+SSD 会在网络中学到固定尺寸的box ,对和ground truth 重合度高的框，输入到loss,进行检测。对bounding box 的坐标进行预测，将目标检测的问题转化为坐标的回归问题。<br>
+在不用知道类别也可以定位的先验知识下，使用深度网络输出一些bounding box ,再预测这些bounding box 的类别分数。</p>
+<h2 id="bounding-box">Bounding Box</h2>
+<p><img src="1.png" alt=""><br>
+每个bounding box 可以转化成一个长度为4的向量，每一个值代表一个bounding box 的一个坐标值。然后可以把所有的bounding box 转化成一个一维的向量，将检测转换为回归问题。</p>
+<h2 id="training-objective">Training Objective</h2>
+<p>训练时，将default box 和 ground truth Jaccard大于 0.5 的视为正样本，其他的视为负样本。只有正样本参与loss 的计算。先学习重合度高的框的位置信息，再学习类别信息。因为正样本的数目比较少，所以训练开销不大。</p>
+<h2 id="ssd模型结构">SSD模型结构</h2>
+<p><img src="2.png" alt=""></p>
+<p>SSD基于VGG模型，上面一层扩展VGG，都是卷积层。<br>
+使用多尺度的方法，对con_4_3 , fc_7 , conv_6_2 , conv_8_2 , conv_9_2 的feature map进行处理。<br>
+conv_4_3 的default box 种类是 4 ，其他都是 6 。</p>
+<p>对 conv_4_3（38<em>38</em>512 ） 进行说明，其他同理。<br>
+conv_4_3 会进行三部分的运算：</p>
+<ol>
+<li>产生prior box<br>
+<img src="3.png" alt=""><br>
+对于feature map 的每一点，会产生 4 个bounding box , 一共是5776 个bounding box ，根据缩放比例及位置信息可以对应到原图的位置 。和ground truth box 进行Jaccard 计算，x= 0 or 1 。feature map 的每一个点对应的长度为 16 的 一维向量 对应于四个框的四个坐标。为方便后面的学习将其拉直为一维的向量。和 2. 位置进行loss 计算。</li>
+<li>位置<br>
+<img src="4.png" alt=""><br>
+同上产生38<em>38</em>16的feature map ，将其拉直为一维的向量。</li>
+<li>类别<br>
+<img src="5.png" alt=""></li>
+</ol>
+<p>分别 concat 上面五层feature map 三个操作产生的一维向量<br>
+(tu)<br>
+最后输出 1<em>1</em>（4+类别数）</p>
+<h2 id="loss-的计算">Loss 的计算</h2>
+<p><img src="6.png" alt=""></p>
+<h2 id="应用">应用</h2>
+<p>数据： 原始数据包括训练集，测试集，labmapfile ,test_name_size.txt ,test.txt ,trainval.txt<br>
+如果使用自己的数据，需要使用 creat_list.sh，来产生 test.txt，trainval.txt 和 test_name_size.txt 文件<br>
+运行修改后的creat_data.sh<br>
+creat_data.sh文件中的内容：<br>
+cur_dir：当前路径；<br>
+root_dir:caffe的根目录，即caffe_ssd；<br>
+脚本调用creat_annoset.py 文件<br>
+( 参数包括 ： –anno_type:detection or classificat ion;<br>
+–label-map-file:mapfile;<br>
+–check-label:检查是否重复的名字或者标签；<br>
+root路径：包含图片和annotation的路径；<br>
+listfile 文件：trainval.txt和text.txt;<br>
+outdir:store database file;<br>
+exampledir:link to database file<br>
+等)<br>
+程序会调用listfile中的trainval.txt 和text.txt 文件 ，读取图像及其标注信息<br>
+输出lmdb数据到outdir，并在exampledir下产生链接文件。</p>
+<p>运行example/ssd/ssd_line.py<br>
+这个文件包括模型的定义，自动生成.prototxt文件，生成训练脚本并运行,保存训练模型等。<br>
+主要修改：text_data ,train_data ,save_dir等各种路径，job_name,model_name，gpu ,num_classes等</p>
+<p>训练结果在data/results 路径下，是两个txt 文件，包含两个类别的bounding box 信息。</p>
+
                 
 
                 <hr>
@@ -219,12 +283,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Kaggle项目实践：人脸特征检测/" data-toggle="tooltip" data-placement="top" title="Kaggle项目实践：人脸特征检测">&larr; Previous Post</a>
+                            <a href="/article/Kaggle项目实践：人脸特征检测/" data-toggle="tooltip" data-placement="top" title="[Caffe] Kaggle项目实践：人脸特征检测">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/Caffe-Faster-Rcnn模型/" data-toggle="tooltip" data-placement="top" title="Caffe Faster-Rcnn模型">Next Post &rarr;</a>
+                            <a href="/article/Caffe-VGGNET模型/" data-toggle="tooltip" data-placement="top" title="[神经网络] VGGNet 网络模型理解">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -269,18 +333,12 @@
             <!-- Table of Contents -->
 
   
-    <style>
-      span.toc-nav-number{
-        display: none
-      }
-    </style>
-  
     
       <aside id="sidebar">
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#引言"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5F15;&#x8A00;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#bounding-box"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Bounding Box</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#training-objective"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Training Objective</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ssd模型结构"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">SSD&#x6A21;&#x578B;&#x7ED3;&#x6784;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#loss-的计算"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Loss &#x7684;&#x8BA1;&#x7B97;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#应用"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">&#x5E94;&#x7528;</span></a></li></ol>
         
         </div>
       </aside>
@@ -300,6 +358,8 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
+                          <a class="tag" href="/tags/#Caffe" title="Caffe">Caffe</a>
+                        
                     </div>
                 </section>
                 
