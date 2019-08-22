@@ -63,6 +63,30 @@
     </url>
 
     <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-Faster-Rcnn%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:44:14.436Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-Fast-Rcnn%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:44:01.817Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://kamikoliu.github.io/article/Caffe-RCNN%E6%A8%A1%E5%9E%8B/</loc>
+        <lastmod>2019-08-05T06:43:39.623Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://kamikoliu.github.io/article/Caffe%E4%BB%8B%E7%BB%8D/</loc>
         <lastmod>2019-08-05T06:34:08.238Z</lastmod>
         <changefreq>weekly</changefreq>
