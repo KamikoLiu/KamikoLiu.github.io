@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [Caffe] R-CNN模型 网络模型理解 - 刘天赐 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://kamikoliu.github.io/article/Caffe-RCNN模型/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+	
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Caffe" title="Caffe">Caffe</a>
+                            
+                        </div>
+                        <h1>[Caffe] R-CNN模型 网络模型理解</h1>
+                        <h2 class="subheading">Understanding of R-CNN model.</h2>
+                        <span class="meta">
+                            Posted by 刘天赐 on
+                            2018-05-05
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">刘天赐</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>R-CNN全名叫<a href="R-CNN.pdf">《Rich feature hierarchies for accurate object detection and semantic segmentation》</a> 2014【用于精确物体定位和语义分割的丰富特征层次结构】。</p>
+</blockquote>
+<h2 id="引言">引言</h2>
+<p>在RCNN之前，overfeat已经是用深度学习的方法做目标检测，但RCNN是第一个可以真正可以工业级应用的解决方案。可以说改变了目标检测领域的主要研究思路，紧随其后的系列文章：Fast R-CNN ，Faster R-CNN、Mask R-CNN都沿袭R-CNN的思路。</p>
+<h2 id="摘要">摘要</h2>
+<p>该方法结合了两个关键的见解：</p>
+<p>使用一个高容量的卷积神经网络将region-proposals自底而上的传播，用来定位和分割目标；<br>
+如果有标签的训练数据比较少，可以使用训练好的参数作为辅助，进行fine-tuning，能够得到非常好的识别效果提升</p>
+<p>该方法是将region proposals 和CNN结合起来的，所以叫做R-CNN（Regions with CNN features）</p>
+<h2 id="介绍">介绍</h2>
+<p>特征很重要。过去十年，各类识别任务基本上都是建立在对SIFT和HOG特征的使用。进步缓慢。CNNs在1990年代被广泛使用，后来SVM的崛起而淡化。2012年，Krizhevsky等人在ImageNet挑战中的出色表现让世人重新关注CNNs(AlexNet)，它的成功是对LeCUN的CNN的改造（比如ReLU和Dropout Regularization)。于是引入思考，如何将ImageNet上的CNN分类结果运用到VOC挑战的检测任务上。<br>
+检测中遇到的第一个问题就是：需要定位一个图像中的许多物体。一个方法是将框定位看作是回归问题。但将定位问题单纯看作回归问题并不好。另一种方法是使用滑动窗口探测器，但感受视野太大，也不好使。我们通过“recognition using regions”方法，解决CNN的定位问题。<br>
+测试时，对每张图片，产生了接近2000个与类别无关的region proposal(候选区域)，region的大小不同，但都是缩放成同一大小，输入CNN当中，对每个CNN抽取一个固定长度的特征向量，然后借助专门针对类别数据的线性SVM对每个区域进行分类。</p>
+<p><img src="1.png" alt=""></p>
+<p>检测中遇到的第二个问题就是标签数据太少。传统的方法采用无监督训练，再进行有监督训练。本文的第二个核心就是在辅助数据集上（ILSVRC）上进行有监督预训练，再在小数据集上针对特定问题进行调优。这是在训练数据稀少的情况下一个非常有效的训练大型卷积神经网络的方法。远超高度优化的基于HOG的可变性部件模型（deformable part model，DPM）</p>
+<blockquote>
+<p>【DPM:多尺度形变部件模型，连续获得07-09的检测冠军，2010年其作者Felzenszwalb Pedro被VOC授予”终身成就奖”。DPM把物体看成了多个组成的部件（比如人脸的鼻子、嘴巴等），用部件间的关系来描述物体，这个特性非常符合自然界很多物体的非刚体特征。DPM可以看做是HOG+SVM的扩展，很好的继承了两者的优点，在人脸检测、行人检测等任务上取得了不错的效果，但是DPM相对复杂，检测速度也较慢，从而也出现了很多改进的方法。】<br>
+R-CNN是在推荐区域上进行的操作，所以很自然地扩展到了语义分割任务上。</p>
+</blockquote>
+<h2 id="用r-cnn做物体检测">用R-CNN做物体检测</h2>
+<h3 id="模块设计">模块设计</h3>
+<p>物体检测系统有三个模块构成。第一个，产生类别无关的region proposal。这些推荐定义了一个候选检测区域的集合；第二个是一个大型卷积神经网络，用于从每个区域抽取特定大小的特征向量；第三个是一个指定类别的线性SVM。</p>
+<p>1.区域推荐（region proposal）<br>
+有很多类别无关区域推荐的方法，我们采用了选择性搜索方法</p>
+<p>2.特征提取（Feature extration）<br>
+    我们使用Krizhevsky等人所描述的CNN的一个Caffe实现版本对每个推荐区域抽取一个4096维度的特征向量把一个输入为277<em>277大小的图片，通过五个卷积层和两个全连接层进行前向传播,最终得到一个4096-D的特征向量。读者可以参考AlexNet获得更多的网络架构细节。<br>
+为了计算region proposal的特征，我们首先要对图像进行转换，使得它符合CNNC的输入（架构中的CNNC只能接受固定大小：277</em>277）。这个变换有很多办法，我们使用了最简单的一种。无论候选区域是什么尺寸和宽高比，我们都把候选框变形成想要的尺寸。具体的，变形之前，我们现在候选框周围加上16的padding,再进行各向异性缩放。 这种形变使得mAp提高了3到5个百分点。在补充材料中，作者对比了各向异性和各向同性缩放缩放方法。</p>
+<blockquote>
+<p>【关于图像的各项同性 各向异性可以参考我的另一篇文章，那里有具体比较说明<br>
+链接：R-CNN中的各项同性 各向异性】。</p>
+</blockquote>
+<h3 id="测试阶段的物体检测">测试阶段的物体检测</h3>
+<p>测试阶段，在测试图像上使用selective search抽取2000个推荐区域（实验中，我们使用了选择性搜索的快速模式）。然后变形每一个推荐区域，再通过CNN前向传播计算出特征。然后我们使用对每个类别训练出的SVM给整个特征向量中的每个类别单独打分。</p>
+<blockquote>
+<p>【对每一个框使用每个类别的SVM进行打分】<br>
+然后给出一张图像中所有的打分区域，然后使用NMS（每个类别是独立进行的），拒绝掉一些和高分区域的IOU大于阈值的候选框。</p>
+</blockquote>
+<p><strong><em>运行时的分析</em></strong><br>
+两个特性让检测变得很高效。1、所有的CNN的参数都是跨类别共享，也就是每个候选区域通过的都是同样的CNN网络。2、通过CNN计算的特征向量相对于其他通用方法维度低，也就是速度快。（GPU：每张图13s，CPU：每张图53s）（其实速度还是很慢）</p>
+<h3 id="训练">训练</h3>
+<p>有监督的预训练（Supervised pre-train）<br>
+在ILSVRC2012分类数据集上预训练了CNN。<br>
+特定领域的参数调优(Domin-specific fine-tuning)<br>
+为了让我们的CNN适应新的任务（即检测任务）和新的领域（变形后的推荐窗口）。我们只使用变形后的推荐区域对CNN参数进行SGD训练。我们替换掉了ImageNet专用的1000-way分类层，换成了一个随机初始化的21-way分类层，（其中20是VOC的类别数，1代表背景）而卷积部分都没有改变。我们对待所有的推荐区域，如果其和真实标注的框的IoU&gt;= 0.5就认为是正例，否则就是负例。<br>
+目标种类分类器<br>
+【IOU&lt;0.3被作为负例，ground-truth是正例，其余的全部丢弃】</p>
+<p>2.5 在ILSVR2013数据集上的检测结果</p>
+<h2 id="可视化-消融-模型的错误">可视化、消融、模型的错误</h2>
+<h2 id="语义分割">语义分割</h2>
+<h2 id="总结">总结</h2>
+<p>最近几年，物体检测陷入停滞，表现最好的检测系统是复杂的将多低层级的图像特征与高层级的物体检测器环境与场景识别相结合。本文提出了一种简单并且可扩展的物体检测方法，达到了VOC 2012数据集相对之前最好性能的30%的提升。<br>
+我们取得这个性能主要通过两个方面：第一是应用了自底向上的候选框训练的高容量的卷积神经网络进行定位和分割物体。另外一个是使用在标签数据匮乏的情况下训练大规模神经网络的一个方法。我们展示了在有监督的情况下使用丰富的数据集（图片分类）预训练一个网络作为辅助性的工作是很有效的，然后采用稀少数据（检测）去调优定位任务的网络。我们猜测“有监督的预训练+特定领域的调优”这一范式对于数据稀少的视觉问题是很有效的。<br>
+最后,我们注意到能得到这些结果，将计算机视觉中经典的工具和深度学习(自底向上的区域候选框和卷积神经网络）组合是非常重要的。</p>
+<h2 id="写在之后">写在之后</h2>
+<h3 id="创新点">创新点</h3>
+<p>1、采用CNN网络提取图像特征，从经验驱动的人造特征范式HOG、SIFT到数据驱动的表示学习范式，提高特征对样本的表示能力；<br>
+2、采用大样本下有监督预训练+小样本微调的方式解决小样本难以训练甚至过拟合等问题。</p>
+<h3 id="问题是什么">问题是什么</h3>
+<p>1、近10年以来，以人工经验特征为主导的物体检测任务mAP【物体类别和位置的平均精度】提升缓慢；<br>
+2、随着ReLu激励函数、dropout正则化手段和大规模图像样本集ILSVRC的出现，在2012年ImageNet大规模视觉识别挑战赛中，Hinton及他的学生采用CNN特征获得了最高的图像识别精确度；<br>
+3、上述比赛后，引发了一股“是否可以采用CNN特征来提高当前一直停滞不前的物体检测准确率“的热潮。</p>
+<h3 id="需要思考的问题">需要思考的问题</h3>
+<p>候选区域的提取。选择性搜索，选取合适的候选区域<br>
+特征提取网络的选择。CNN卷积神经网络进行特征提取，这个网络模型的选取，VGG16<br>
+预训练和微调。卷积神经网络的训练，用VOC数据集训练卷积神经网络，这个过程叫做预训练，得到网络参数，然后实际的分类和训练时的分类可能不同，如VOC是100分类问题，而实际的检测可能只需要10分类或者2分类，这个时候就需要微调网络，改变最后的分类网络，变成我们需要的分类。<br>
+对检测物体的分类问题。这里选择SVM用来分类，后面还有softmax可以用来分类。首先要训练每个类别的SVM，然后候选区域中的图片分别经过这些SVM进行分类。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Caffe-Fast-Rcnn模型/" data-toggle="tooltip" data-placement="top" title="[Caffe] Fast R-CNN模型 网络模型理解">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Caffe-VGGNET模型/" data-toggle="tooltip" data-placement="top" title="[神经网络] VGGNet 网络模型理解">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#引言"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5F15;&#x8A00;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#摘要"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x6458;&#x8981;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#介绍"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x4ECB;&#x7ECD;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#用r-cnn做物体检测"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x7528;R-CNN&#x505A;&#x7269;&#x4F53;&#x68C0;&#x6D4B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#模块设计"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">&#x6A21;&#x5757;&#x8BBE;&#x8BA1;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#测试阶段的物体检测"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">&#x6D4B;&#x8BD5;&#x9636;&#x6BB5;&#x7684;&#x7269;&#x4F53;&#x68C0;&#x6D4B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#训练"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">&#x8BAD;&#x7EC3;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#可视化-消融-模型的错误"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x53EF;&#x89C6;&#x5316;&#x3001;&#x6D88;&#x878D;&#x3001;&#x6A21;&#x578B;&#x7684;&#x9519;&#x8BEF;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#语义分割"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">&#x8BED;&#x4E49;&#x5206;&#x5272;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">&#x603B;&#x7ED3;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#写在之后"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">&#x5199;&#x5728;&#x4E4B;&#x540E;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创新点"><span class="toc-nav-number">8.1.</span> <span class="toc-nav-text">&#x521B;&#x65B0;&#x70B9;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#问题是什么"><span class="toc-nav-number">8.2.</span> <span class="toc-nav-text">&#x95EE;&#x9898;&#x662F;&#x4EC0;&#x4E48;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#需要思考的问题"><span class="toc-nav-number">8.3.</span> <span class="toc-nav-text">&#x9700;&#x8981;&#x601D;&#x8003;&#x7684;&#x95EE;&#x9898;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Caffe" title="Caffe">Caffe</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">CSDN Blog 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">DockOne 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">阿里云栖社区 刘天赐</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/KamikoLiu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 刘天赐 2019 
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://kamikoliu.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://kamikoliu.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

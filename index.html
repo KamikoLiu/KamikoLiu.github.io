@@ -283,10 +283,10 @@ step1
 
     <a href="/article/Caffe-SSD模型/">
         <h2 class="post-title">
-            [Caffe] FCN 网络模型理解
+            [Caffe] SSD 网络模型理解
         </h2>
         <h3 class="post-subtitle">
-            Understanding of SSD neural network model.
+            Understanding of SSD model.
         </h3>
         <div class="post-content-preview">
             
@@ -302,6 +302,103 @@ SSD的核心思想是用小尺寸卷积核对预设的bbox预测对应的classes
         <p class="post-meta" style="margin: 10px 0;">
             Posted by 刘天赐 on
             2018-09-20
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Caffe-Faster-Rcnn模型/">
+        <h2 class="post-title">
+            [Caffe] Faster R-CNN 网络模型理解
+        </h2>
+        <h3 class="post-subtitle">
+            Understanding of Faster R-CNN model.
+        </h3>
+        <div class="post-content-preview">
+            
+文章《Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks》是为了改进Fast R-CNN而提出来的。
+
+简介
+在R-CNN中的roi都是独自传入到经过与训练的CNN的分类器和box-regression中去造成了对应每个roi都要经过独自的卷积操作十分耗时，Fast-RCNN解决了没有......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2018-08-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Caffe-Fast-Rcnn模型/">
+        <h2 class="post-title">
+            [Caffe] Fast R-CNN模型 网络模型理解
+        </h2>
+        <h3 class="post-subtitle">
+            Understanding of Fast R-CNN model.
+        </h3>
+        <div class="post-content-preview">
+            
+Fast R-CNN是在R-CNN的基础上进行的改进，大致框架是一致的。总体而言，Fast R-CNN相对于R-CNN而言，提出了三个改进策略:
+
+背景
+经典的R-CNN存在以下几个问题：
+训练分多步骤（先在分类数据集上预训练，再进行fine-tune训练，然后再针对每个类别都训练一个线性SVM分类器，最后再用regressors对bounding box进行回归，并且bounding b......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2018-07-18
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Caffe-RCNN模型/">
+        <h2 class="post-title">
+            [Caffe] R-CNN模型 网络模型理解
+        </h2>
+        <h3 class="post-subtitle">
+            Understanding of R-CNN model.
+        </h3>
+        <div class="post-content-preview">
+            
+R-CNN全名叫《Rich feature hierarchies for accurate object detection and semantic segmentation》 2014【用于精确物体定位和语义分割的丰富特征层次结构】。
+
+引言
+在RCNN之前，overfeat已经是用深度学习的方法做目标检测，但RCNN是第一个可以真正可以工业级应用的解决方案。可以说改变了目标检测领域......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2018-05-05
         </p>
         <div class="tags">
             
@@ -441,105 +538,6 @@ github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/article/Caffe-LeNet/">
-        <h2 class="post-title">
-            [Caffe] LeNet 网络模型理解
-        </h2>
-        <h3 class="post-subtitle">
-            Understanding of LeNet neural network model.
-        </h3>
-        <div class="post-content-preview">
-            
-       Caffe的模型具有两个重要的参数文件：网络模型和参数配置，分别是*.prototxt和*.solver.prototxt
-
-LeNet网络介绍
-       LeNet-5模型，大神Yann LeCun的作品，用以手写字体的识别，在邮编识别上得到应用，论文 《Gradient-Based Learning Applied to Document Recognition》堪称......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by 刘天赐 on
-            2017-12-12
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/正则化/">
-        <h2 class="post-title">
-            [深度学习] 深度学习中的正则化
-        </h2>
-        <h3 class="post-subtitle">
-            Regularization in deep learning.
-        </h3>
-        <div class="post-content-preview">
-            
-       为了理解正则化在深度学习中的作用，我以回归问题为例来进行理解。
-
-
-       如图，假设我们现在要根据图中的六个点拟合出数据的分布曲线，用于预测其他x坐标对应的y值，我们使用如下的多项式进行拟合：
-       y=a0+a1*x+a2*x^2+a3*x^3+…
-       假如一开始，只有a0和a1不为0，其他系数a都为0，拟合函数就变成了：y=a0+a1*x, 拟合......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by 刘天赐 on
-            2017-12-08
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#深度学习" title="深度学习">深度学习</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/反向传播/">
-        <h2 class="post-title">
-            [Caffe] 误差的反向传播
-        </h2>
-        <h3 class="post-subtitle">
-            Back propagation of error.
-        </h3>
-        <div class="post-content-preview">
-            
-       分类的CNN是有监督的，就是在最后一层计算分类结果的loss，然后利用这个loss对整个网络进行更新，更新的关键就是计算梯度和偏置的导数dW和db，而Back Propagation主要就是为了解决前面的层的dW不容易计算的问题，具体是将loss通过一个残差delta一层一层往前传，因此无论是全连接层还是卷积层，全部是有监督的。
-
-       假设代价函数为：
-
-     ......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by 刘天赐 on
-            2017-12-06
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -581,7 +579,7 @@ LeNet网络介绍
     <div class="tags">
         
             
-            <a href="/tags/#Caffe" title="Caffe" rel="10">Caffe</a>
+            <a href="/tags/#Caffe" title="Caffe" rel="13">Caffe</a>
             
         
             
@@ -669,15 +667,15 @@ LeNet网络介绍
         </li>
       
         <li>
-          <a href="/article/Caffe-SSD模型/">[Caffe] FCN 网络模型理解</a>
+          <a href="/article/Caffe-SSD模型/">[Caffe] SSD 网络模型理解</a>
         </li>
       
         <li>
-          <a href="/article/Caffe-VGGNET模型/">[神经网络] VGGNet 网络模型理解</a>
+          <a href="/article/Caffe-Faster-Rcnn模型/">[Caffe] Faster R-CNN 网络模型理解</a>
         </li>
       
         <li>
-          <a href="/article/Caffe-FCN模型/">[神经网络] FCN 网络模型理解</a>
+          <a href="/article/Caffe-Fast-Rcnn模型/">[Caffe] Fast R-CNN模型 网络模型理解</a>
         </li>
       
     </ul>
@@ -704,7 +702,7 @@ LeNet网络介绍
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>
