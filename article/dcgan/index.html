@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [GAN] DCGAN 网络模型理解 - 刘天赐 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://kamikoliu.github.io/article/dcgan/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+	
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#GAN" title="GAN">GAN</a>
+                            
+                        </div>
+                        <h1>[GAN] DCGAN 网络模型理解</h1>
+                        <h2 class="subheading">Understanding of Generative Adversarial Networks.</h2>
+                        <span class="meta">
+                            Posted by 刘天赐 on
+                            2019-02-26
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">刘天赐</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>       DCGAN<a href="dcgan.pdf">《Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks 》</a>相对于原始的GAN并没有太大的改进，只是将全卷积神经网络应用到了GAN中，因此GAN存在的许多问题DCGAN依然有。不知是不是GAN过于难训的原因，论文对许多参数和细节做了详细的说明。</p>
+</blockquote>
+<h2 id="深度卷积生成对抗网络dcgan">深度卷积生成对抗网络（DCGAN）</h2>
+<p>       在代码实现方面，因为用25个epoch做出的cifar10结果实在太差，因此放上40个epoch的MNIST结果，同样是将输入图像resize成64x64的大小，网络结构和论文一致。不知为何效果不是太令人满意，或许细节方面仍有些问题需要改进。<br>
+       细节方面，DCGAN做了如下改进：</p>
+<ul>
+<li>
+<p>取消pooling层。G中用反卷积进行上采样，D中用加入stride的卷积代替pooling</p>
+</li>
+<li>
+<p>batch normalization</p>
+</li>
+<li>
+<p>去掉FC层，网络为全卷积网络</p>
+</li>
+<li>
+<p>G中使用Relu(最后一层用tanh)</p>
+</li>
+<li>
+<p>D中用LeakyRelu</p>
+</li>
+</ul>
+<h2 id="网络结构">网络结构</h2>
+<p><img src="1.png" alt=""></p>
+<h2 id="训练细节">训练细节</h2>
+<ul>
+<li>
+<p>预处理环节，将图像scale到tanh的[-1,1]</p>
+</li>
+<li>
+<p>minibatch训练，batch size=128</p>
+</li>
+<li>
+<p>所有参数初始化由（0,0.02)的正态分布中随即得到</p>
+</li>
+<li>
+<p>LeakyRelu的斜率是0.2</p>
+</li>
+<li>
+<p>使用Adam优化器，初始学习率为0.0002，beta_1参数设置为0.5</p>
+</li>
+</ul>
+<p>代码实现(pytorch)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">import torchvision</span><br><span class="line">import torch.nn as nn</span><br><span class="line">import torch.backends.cudnn as cudnn</span><br><span class="line">from torchvision import datasets, transforms</span><br><span class="line">import torchvision.utils as vutils</span><br><span class="line">import random</span><br><span class="line"></span><br><span class="line">manualSeed = random.randint(1, 10000)</span><br><span class="line">print(&quot;Random Seed: &quot;, manualSeed)</span><br><span class="line">random.seed(manualSeed)</span><br><span class="line">torch.manual_seed(manualSeed)</span><br><span class="line"></span><br><span class="line">cudnn.benchmark = True</span><br><span class="line"></span><br><span class="line">num_epoch = 40</span><br><span class="line">learning_rate = 0.0002</span><br><span class="line">z_dimension = 100</span><br><span class="line">nc = 1  #num of channels</span><br><span class="line">ndf = 64  #判别网络中的初始feature数</span><br><span class="line">ngf = 64  #生成网络中的初始feature数</span><br><span class="line">batchSize = 64</span><br><span class="line">beta = 0.5</span><br><span class="line"></span><br><span class="line"># data_loader</span><br><span class="line">img_size = 64</span><br><span class="line">transform = transforms.Compose([</span><br><span class="line">    transforms.Resize(img_size),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">    transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))</span><br><span class="line">])</span><br><span class="line">data_loader = torch.utils.data.DataLoader(</span><br><span class="line">    datasets.MNIST(root=&apos;data&apos;, download=True, transform=transform),</span><br><span class="line">    batch_size=batchSize,</span><br><span class="line">    shuffle=True,</span><br><span class="line">    num_workers=2)</span><br><span class="line"></span><br><span class="line"># data_loader = datasets.CIFAR10(root=&apos;data&apos;,download=True,transform=transform)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">##Discriminator</span><br><span class="line">class Discriminator(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(Discriminator, self).__init__()</span><br><span class="line">        self.dis = nn.Sequential(</span><br><span class="line">            ##input is nc*64*64</span><br><span class="line">            nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),</span><br><span class="line">            nn.LeakyReLU(0.2, inplace=True),</span><br><span class="line"></span><br><span class="line">            ## state size ndf*32*32</span><br><span class="line">            nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),</span><br><span class="line">            nn.BatchNorm2d(ndf * 2),</span><br><span class="line">            nn.LeakyReLU(0.2, inplace=True),</span><br><span class="line"></span><br><span class="line">            ##state size (ndf*2)*16*16</span><br><span class="line">            nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),</span><br><span class="line">            nn.BatchNorm2d(ndf * 4),</span><br><span class="line">            nn.LeakyReLU(0.2, inplace=True),</span><br><span class="line"></span><br><span class="line">            ##state size (ndf*4)*8*8</span><br><span class="line">            nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),</span><br><span class="line">            nn.BatchNorm2d(ndf * 8),</span><br><span class="line">            nn.LeakyReLU(0.2, inplace=True),</span><br><span class="line"></span><br><span class="line">            ##state size (ndf*8)*4*4</span><br><span class="line">            nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),</span><br><span class="line">            nn.Sigmoid())</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        x = self.dis(x)</span><br><span class="line">        return x.view(-1, 1).squeeze(1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">##Generator</span><br><span class="line">class Generator(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(Generator, self).__init__()</span><br><span class="line">        self.gen = nn.Sequential(</span><br><span class="line"></span><br><span class="line">            ##input is z_dimension</span><br><span class="line">            nn.ConvTranspose2d(z_dimension, ngf * 8, 4, 1, 0, bias=False),</span><br><span class="line">            nn.BatchNorm2d(ngf * 8),</span><br><span class="line">            nn.ReLU(True),</span><br><span class="line"></span><br><span class="line">            ##state size (ngf*8)*4*4</span><br><span class="line">            nn.ConvTranspose2d(ngf * 8, ngf * 4, 4, 2, 1, bias=False),</span><br><span class="line">            nn.BatchNorm2d(ngf * 4),</span><br><span class="line">            nn.ReLU(True),</span><br><span class="line"></span><br><span class="line">            ##state size (ngf*4)*8*8</span><br><span class="line">            nn.ConvTranspose2d(ngf * 4, ngf * 2, 4, 2, 1, bias=False),</span><br><span class="line">            nn.BatchNorm2d(ngf * 2),</span><br><span class="line">            nn.ReLU(True),</span><br><span class="line"></span><br><span class="line">            ##state size (ngf*2)*16*16</span><br><span class="line">            nn.ConvTranspose2d(ngf * 2, ngf, 4, 2, 1, bias=False),</span><br><span class="line">            nn.BatchNorm2d(ngf),</span><br><span class="line">            nn.ReLU(True),</span><br><span class="line"></span><br><span class="line">            ##state size ngf*32*32</span><br><span class="line">            nn.ConvTranspose2d(ngf, nc, 4, 2, 1, bias=False),</span><br><span class="line">            nn.Tanh(),</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        x = self.gen(x)</span><br><span class="line">        return x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># custom weights initialization called on netG and netD</span><br><span class="line">def weights_init(m):</span><br><span class="line">    classname = m.__class__.__name__</span><br><span class="line">    if classname.find(&apos;Conv&apos;) != -1:</span><br><span class="line">        m.weight.data.normal_(0.0, 0.02)</span><br><span class="line">    elif classname.find(&apos;BatchNorm&apos;) != -1:</span><br><span class="line">        m.weight.data.normal_(1.0, 0.02)</span><br><span class="line">        m.bias.data.fill_(0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">D = Discriminator()</span><br><span class="line">D.apply(weights_init)</span><br><span class="line">G = Generator()</span><br><span class="line">G.apply(weights_init)</span><br><span class="line">G.cuda()</span><br><span class="line">D.cuda()</span><br><span class="line">criterion = nn.BCELoss()</span><br><span class="line">d_optimizer = torch.optim.Adam(</span><br><span class="line">    D.parameters(), lr=learning_rate, betas=(beta, 0.999))</span><br><span class="line">g_optimizer = torch.optim.Adam(</span><br><span class="line">    G.parameters(), lr=learning_rate, betas=(beta, 0.999))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#print network architercture</span><br><span class="line">def print_network(net):</span><br><span class="line">    num_params = 0</span><br><span class="line">    for param in net.parameters():</span><br><span class="line">        num_params += param.numel()</span><br><span class="line">    print(net)</span><br><span class="line">    print(&apos;Total number of parameters: %d&apos; % num_params)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(&apos;---------- Networks architecture -------------&apos;)</span><br><span class="line">print_network(G)</span><br><span class="line">print_network(D)</span><br><span class="line">print(&apos;-----------------------------------------------&apos;)</span><br><span class="line"></span><br><span class="line"># r_label = torch.ones(batchSize, 1).cuda()</span><br><span class="line"># f_label = torch.zeros(batchSize, 1).cuda()</span><br><span class="line">fixed_noise = torch.randn(batchSize, z_dimension, 1, 1).cuda()</span><br><span class="line">print(&apos;training start!!&apos;)</span><br><span class="line">##start training</span><br><span class="line">for epoch in range(num_epoch):</span><br><span class="line">    for iter, data in enumerate(data_loader, 0):</span><br><span class="line">        x_ = data[0].cuda()</span><br><span class="line">        bacthSize = x_.size(0)</span><br><span class="line">        r_label = torch.full((batchSize, ), 1).cuda()</span><br><span class="line">        f_label = torch.full((batchSize, ), 0).cuda()</span><br><span class="line">        ##train Disceiminator</span><br><span class="line">        D.zero_grad()</span><br><span class="line"></span><br><span class="line">        ##compute the loss of real_image</span><br><span class="line">        real_out = D(x_)</span><br><span class="line">        d_loss_real = criterion(real_out, r_label)</span><br><span class="line">        d_loss_real.backward()</span><br><span class="line">        D_x = real_out.mean().item()</span><br><span class="line"></span><br><span class="line">        ##compute the loss of fake_image</span><br><span class="line">        noise = torch.randn(batchSize, z_dimension, 1, 1).cuda()</span><br><span class="line">        fake_img = G(noise)</span><br><span class="line">        fake_out = D(fake_img.detach())</span><br><span class="line">        d_loss_fake = criterion(fake_out, f_label)</span><br><span class="line">        d_loss_fake.backward()</span><br><span class="line">        D_G_z1 = fake_out.mean().item()</span><br><span class="line"></span><br><span class="line">        ##bp and optimize</span><br><span class="line">        d_loss = d_loss_fake + d_loss_real</span><br><span class="line">        d_optimizer.step()</span><br><span class="line"></span><br><span class="line">        ##train Generotor</span><br><span class="line">        G.zero_grad()</span><br><span class="line">        output = D(fake_img)</span><br><span class="line">        g_loss = criterion(output, r_label)</span><br><span class="line"></span><br><span class="line">        ##bp and optimize</span><br><span class="line">        g_loss.backward()</span><br><span class="line">        D_G_z2 = output.mean().item()</span><br><span class="line">        g_optimizer.step()</span><br><span class="line"></span><br><span class="line">        if ((iter + 1) % 100) == 0:</span><br><span class="line">            vutils.save_image(x_, &apos;./real_samples.png&apos;, normalize=True)</span><br><span class="line">            fake = G(fixed_noise)</span><br><span class="line">            vutils.save_image(</span><br><span class="line">                fake.detach(),</span><br><span class="line">                &apos;./fake_samples_epoch_%03d.png&apos; % epoch,</span><br><span class="line">                normalize=True)</span><br><span class="line">            print(</span><br><span class="line">                &apos;[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f&apos;</span><br><span class="line">                % (epoch, num_epoch, iter, len(data_loader), d_loss.item(),</span><br><span class="line">                   g_loss.item(), D_x, D_G_z1, D_G_z2))</span><br><span class="line">    if (epoch+1)%5 == 0:</span><br><span class="line">        addressG = &apos;_G&apos; + str(epoch) + &apos;.pkl&apos;</span><br><span class="line">        addressD = &apos;_D&apos; + str(epoch) + &apos;.pkl&apos;</span><br><span class="line">        torch.save(G.state_dict(), addressG)</span><br><span class="line">        torch.save(D.state_dict(), addressD)</span><br><span class="line">print(&quot;Training finish!... save training results&quot;)</span><br><span class="line">torch.save(G.state_dict(), &apos;_G.pkl&apos;)</span><br><span class="line">torch.save(D.state_dict(), &apos;_D.pkl&apos;)</span><br><span class="line">print(&quot;well done!&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="训练结果">训练结果</h2>
+<p>epoch=10<br>
+<img src="2.png" alt=""></p>
+<p>epoch=20<br>
+<img src="3.png" alt=""></p>
+<p>epoch=30<br>
+<img src="4.png" alt=""></p>
+<p>epoch=40<br>
+<img src="5.png" alt=""></p>
+<h2 id="结果分析">结果分析</h2>
+<p>       可以看到结果如之前所说并不是很令人满意，在epoch=20的时候已初见雏形，但后续的训练并没有明显的效果，而且生成器的偏向非常的明显（1,3等数字完全看不到）。接下来准备阅读WGAN所提及的推土机距离来量化生成器G的生成效果，并尝试找到训练结果不理想的原因。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Kaggle项目实践：猫狗分类检测/" data-toggle="tooltip" data-placement="top" title="[Caffe] Kaggle项目实践：猫狗分类检测">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#深度卷积生成对抗网络dcgan"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x6DF1;&#x5EA6;&#x5377;&#x79EF;&#x751F;&#x6210;&#x5BF9;&#x6297;&#x7F51;&#x7EDC;&#xFF08;DCGAN&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#网络结构"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x7F51;&#x7EDC;&#x7ED3;&#x6784;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#训练细节"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x8BAD;&#x7EC3;&#x7EC6;&#x8282;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#训练结果"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x8BAD;&#x7EC3;&#x7ED3;&#x679C;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#结果分析"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x7ED3;&#x679C;&#x5206;&#x6790;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#GAN" title="GAN">GAN</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">CSDN Blog 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">DockOne 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">阿里云栖社区 刘天赐</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/KamikoLiu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 刘天赐 2019 
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://kamikoliu.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://kamikoliu.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

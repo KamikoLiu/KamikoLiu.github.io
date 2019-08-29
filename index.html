@@ -135,14 +135,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -209,6 +209,35 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/article/dcgan/">
+        <h2 class="post-title">
+            [GAN] DCGAN 网络模型理解
+        </h2>
+        <h3 class="post-subtitle">
+            Understanding of Generative Adversarial Networks.
+        </h3>
+        <div class="post-content-preview">
+            
+       DCGAN《Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks 》相对于原始的GAN并没有太大的改进，只是将全卷积神经网络应用到了GAN中，因此GAN存在的许多问题DCGAN依然有。不知是不是GAN过于难训的原因，论文对许多参数和细节做了详细的......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 刘天赐 on
+            2019-02-26
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#GAN" title="GAN">GAN</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -412,19 +441,22 @@ R-CNN全名叫《Rich feature hierarchies for accurate object detection and sema
 
 <div class="post-preview">
 
-    <a href="/article/Caffe-VGGNET模型/">
+    <a href="/article/Caffe-FCN模型/">
         <h2 class="post-title">
-            [神经网络] VGGNet 网络模型理解
+            [神经网络] FCN 网络模型理解
         </h2>
         <h3 class="post-subtitle">
             Understanding of VGGNet neural network model.
         </h3>
         <div class="post-content-preview">
-            VGG的特点
-       VGG相应的论文《Very Deep Convolutional Networks for Large-Scale Image Recognition》，先看一下VGG的结构图
+            
+论文《Fully Convolutional Networks for Semantic Segmentation》 是图像分割的milestone论文。
+fcn开源代码
+github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
 
-       1、结构简洁
-       VGG由5层卷积层、3层全连接层、softmax输出层构成，层与层之间使用max-pooling（最大化池）分开，所有隐层的激活单元都采用ReL......
+核心思想
+       该论文包含了当下CNN的三个思潮 
+       - 不含全连接层(f......
         </div>
     </a>
     
@@ -444,22 +476,19 @@ R-CNN全名叫《Rich feature hierarchies for accurate object detection and sema
 
 <div class="post-preview">
 
-    <a href="/article/Caffe-FCN模型/">
+    <a href="/article/Caffe-VGGNET模型/">
         <h2 class="post-title">
-            [神经网络] FCN 网络模型理解
+            [神经网络] VGGNet 网络模型理解
         </h2>
         <h3 class="post-subtitle">
             Understanding of VGGNet neural network model.
         </h3>
         <div class="post-content-preview">
-            
-论文《Fully Convolutional Networks for Semantic Segmentation》 是图像分割的milestone论文。
-fcn开源代码
-github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
+            VGG的特点
+       VGG相应的论文《Very Deep Convolutional Networks for Large-Scale Image Recognition》，先看一下VGG的结构图
 
-核心思想
-       该论文包含了当下CNN的三个思潮 
-       - 不含全连接层(f......
+       1、结构简洁
+       VGG由5层卷积层、3层全连接层、softmax输出层构成，层与层之间使用max-pooling（最大化池）分开，所有隐层的激活单元都采用ReL......
         </div>
     </a>
     
@@ -497,36 +526,6 @@ github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
         <p class="post-meta" style="margin: 10px 0;">
             Posted by 刘天赐 on
             2018-03-07
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Caffe" title="Caffe">Caffe</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/Caffe-AlexNet模型/">
-        <h2 class="post-title">
-            [Caffe] AlexNet 网络模型理解
-        </h2>
-        <h3 class="post-subtitle">
-            Understanding of AlexNet neural network model.
-        </h3>
-        <div class="post-content-preview">
-            简介
-       AlexNet是2012年ImageNet竞赛冠军获得者Hinton和他的学生Alex Krizhevsky设计的。也是在那年之后，更多的更深的神经网路被提出，比如优秀的vgg,GoogleLeNet。其官方提供的数据模型，准确率达到57.1%,top 1-5 达到80.2%. 这项对于传统的机器学习分类算法而言，已经相当的出色.
-       论文：《ImageNet ......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by 刘天赐 on
-            2018-01-09
         </p>
         <div class="tags">
             
@@ -579,11 +578,11 @@ github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
     <div class="tags">
         
             
-            <a href="/tags/#Caffe" title="Caffe" rel="13">Caffe</a>
+            <a href="/tags/#神经网络" title="神经网络" rel="3">神经网络</a>
             
         
             
-            <a href="/tags/#神经网络" title="神经网络" rel="3">神经网络</a>
+            <a href="/tags/#Caffe" title="Caffe" rel="13">Caffe</a>
             
         
             
@@ -591,11 +590,11 @@ github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
             
         
             
-            <a href="/tags/#深度学习" title="深度学习" rel="3">深度学习</a>
+            <a href="/tags/#人工智能" title="人工智能" rel="1">人工智能</a>
             
         
             
-            <a href="/tags/#人工智能" title="人工智能" rel="1">人工智能</a>
+            <a href="/tags/#深度学习" title="深度学习" rel="3">深度学习</a>
             
         
             
@@ -604,6 +603,10 @@ github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
         
             
             <a href="/tags/#特征提取" title="特征提取" rel="1">特征提取</a>
+            
+        
+            
+            <a href="/tags/#GAN" title="GAN" rel="1">GAN</a>
             
         
     </div>
@@ -659,6 +662,10 @@ github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
     <ul>
       
         <li>
+          <a href="/article/dcgan/">[GAN] DCGAN 网络模型理解</a>
+        </li>
+      
+        <li>
           <a href="/article/Kaggle项目实践：猫狗分类检测/">[Caffe] Kaggle项目实践：猫狗分类检测</a>
         </li>
       
@@ -672,10 +679,6 @@ github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
       
         <li>
           <a href="/article/Caffe-Faster-Rcnn模型/">[Caffe] Faster R-CNN 网络模型理解</a>
-        </li>
-      
-        <li>
-          <a href="/article/Caffe-Fast-Rcnn模型/">[Caffe] Fast R-CNN模型 网络模型理解</a>
         </li>
       
     </ul>
@@ -702,7 +705,7 @@ github下载地址https://github.com/shelhamer/fcn.berkeleyvision.org
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>

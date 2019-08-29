@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://kamikoliu.github.io/article/dcgan/</loc>
+        <lastmod>2019-08-29T18:13:13.664Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://kamikoliu.github.io/article/Caffe-SSD%E6%A8%A1%E5%9E%8B/</loc>
         <lastmod>2019-08-23T08:21:23.299Z</lastmod>
         <changefreq>weekly</changefreq>
