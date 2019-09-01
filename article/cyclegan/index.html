@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [GAN] CycleGAN 网络模型理解 - 刘天赐 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://kamikoliu.github.io/article/cyclegan/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+	
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#GAN" title="GAN">GAN</a>
+                            
+                        </div>
+                        <h1>[GAN] CycleGAN 网络模型理解</h1>
+                        <h2 class="subheading">Understanding of Generative Adversarial Networks.</h2>
+                        <span class="meta">
+                            Posted by 刘天赐 on
+                            2019-05-18
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">刘天赐</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>       生成对抗网络（GAN）是一个十分有效的深度学习模型，由此衍生了Cycle GAN<a href="cyclegan.pdf">《Unpaired Image-to-Image Translation》</a>。<br>
+       先简单介绍一下GAN。</p>
+</blockquote>
+<h2 id="gangenerative-adversarial-networks">GAN——Generative Adversarial Networks</h2>
+<p>       网络中有生成器G（generator）和鉴别器（Discriminator）。<br>
+       有两个数据域分别为X,Y。G 负责把X域中的数据拿过来拼命地模仿成真实数据并把它们藏在真实数据中，而 D 就拼命地要把伪造数据和真实数据分开。经过二者的博弈以后，G 的伪造技术越来越厉害，D 的鉴别技术也越来越厉害。直到 D 再也分不出数据是真实的还是 G 生成的数据的时候，这个对抗的过程达到一个动态的平衡。</p>
+<p>       传统的GAN是单向的：<br>
+<img src="1.png" alt=""></p>
+<h2 id="gan损失">GAN损失</h2>
+<p>       训练这个单向GAN需要两个loss：生成器的重建Loss和判别器的判别Loss。<br>
+1.重建Loss：希望生成的图片Gba(Gab(a))与原图a尽可能的相似。<br>
+<img src="2.png" alt=""><br>
+2.判别Loss：生成的假图片和原始真图片都会输入到判别器中。公式为0,1二分类的损失。<br>
+<img src="3.png" alt=""></p>
+<h2 id="cyclegan">CycleGAN</h2>
+<p>       CycleGAN本质上是两个镜像对称的GAN，构成了一个环形网络。<br>
+       两个GAN共享两个生成器，并各自带一个判别器，即共有两个判别器和两个生成器。一个单向GAN两个loss，两个即共四个loss。<br>
+<img src="4.png" alt=""></p>
+<p>       论文里最终使用均方误差损失表示：<br>
+<img src="5.png" alt=""></p>
+<p>       CycleGAN的网络架构如图所示：<br>
+<img src="6.png" alt=""><br>
+<img src="7.png" alt=""></p>
+<p>       可以实现无配对的两个图片集的训练是CycleGAN与Pixel2Pixel相比的一个典型优点。但是我们仍然需要通过训练创建这个映射来确保输入图像和生成图像间存在有意义的关联，即输入输出共享一些特征。</p>
+<p>       简而言之，该模型通过从域DA获取输入图像，该输入图像被传递到第一个生成器GeneratorA→B，其任务是将来自域DA的给定图像转换到目标域DB中的图像。然后这个新生成的图像被传递到另一个生成器GeneratorB→A，其任务是在原始域DA转换回图像CyclicA，这里可与自动编码器作对比。这个输出图像必须与原始输入图像相似，用来定义非配对数据集中原来不存在的有意义映射。</p>
+<h2 id="生成器">生成器</h2>
+<p>       生成器由编码器、转换器和解码器构成。<br>
+<img src="8.png" alt=""></p>
+<ul>
+<li>编码：第一步利用卷积神经网络从输入图象中提取特征。将图像压缩成256个64*64的特征向量。</li>
+<li>转换：通过组合图像的不相近特征，将图像在DA域中的特征向量转换为DB域中的特征向量。作者使用了6层Reset模块，每个Reset模块是一个由两个卷积层构成的神经网络层，能够达到在转换时同时保留原始图像特征的目标。</li>
+<li>解码：利用反卷积层（decovolution）完成从特征向量中还原出低级特征的工作，最后得到生成图像。</li>
+</ul>
+<h2 id="鉴别器">鉴别器</h2>
+<p>       鉴别器将一张图像作为输入，并尝试预测其为原始图像或是生成器的输出图像。<br>
+<img src="9.png" alt=""><br>
+       鉴别器本身属于卷积网络，需要从图像中提取特征，再通过添加产生一维输出的卷积层来确定提取的特征是否属于特定类别。</p>
+<h2 id="man2woman实验">man2woman实验</h2>
+<blockquote>
+<p>分别有大约2万张男人与女人的脸作为输入的训练集。</p>
+</blockquote>
+<p>TensorFlow上CycleGAN的实现代码：<br>
+<a href="https://github.com/vanhuyz/CycleGAN-TensorFlow.git" target="_blank" rel="noopener">https://github.com/vanhuyz/CycleGAN-TensorFlow.git</a><br>
+工具：pycharm+python3.6+TensorFlow</p>
+<h3 id="数据集">数据集</h3>
+<p><img src="10.png" alt=""></p>
+<p><img src="11.png" alt=""></p>
+<h3 id="将图片转换为tfrecords格式">将图片转换为tfrecords格式</h3>
+<p>项目中提供了build_data.py脚本，修改训练集的路径，运行即可。</p>
+<h3 id="训练">训练</h3>
+<h3 id="导出模型">导出模型</h3>
+<h3 id="对单张图片进行转换">对单张图片进行转换</h3>
+<p>       将data/test.jpg替换为对应的输入图片地址</p>
+<p>       训练时踩了比较多坑。由于急于看结果用了比较高的学习率。大概迭代五万次的时候可以有一点能看的结果，10万次时多数还可以接受。但是仍然有许多问题，比如戴眼镜，脸上亮度不均匀，角度奇异等都可能引起生成的图像中噪声较大的问题。<br>
+       转换的特征通常为面部五官特征以及肤色亮度等，不包括发型，因此男女转化之后显得比较诡异。。<br>
+       比如<br>
+<img src="12.png" alt=""></p>
+<p>未完待续。。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/dcgan/" data-toggle="tooltip" data-placement="top" title="[GAN] DCGAN 网络模型理解">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#gangenerative-adversarial-networks"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">GAN&#x2014;&#x2014;Generative Adversarial Networks</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#gan损失"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">GAN&#x635F;&#x5931;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#cyclegan"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">CycleGAN</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#生成器"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x751F;&#x6210;&#x5668;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#鉴别器"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x9274;&#x522B;&#x5668;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#man2woman实验"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">man2woman&#x5B9E;&#x9A8C;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#数据集"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">&#x6570;&#x636E;&#x96C6;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#将图片转换为tfrecords格式"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text">&#x5C06;&#x56FE;&#x7247;&#x8F6C;&#x6362;&#x4E3A;tfrecords&#x683C;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#训练"><span class="toc-nav-number">6.3.</span> <span class="toc-nav-text">&#x8BAD;&#x7EC3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#导出模型"><span class="toc-nav-number">6.4.</span> <span class="toc-nav-text">&#x5BFC;&#x51FA;&#x6A21;&#x578B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#对单张图片进行转换"><span class="toc-nav-number">6.5.</span> <span class="toc-nav-text">&#x5BF9;&#x5355;&#x5F20;&#x56FE;&#x7247;&#x8FDB;&#x884C;&#x8F6C;&#x6362;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#GAN" title="GAN">GAN</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">CSDN Blog 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">DockOne 刘天赐</a></li>
+                    
+                        <li><a href="https://kamikoliu.github.io/" target="_blank">阿里云栖社区 刘天赐</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/KamikoLiu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 刘天赐 2019 
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://kamikoliu.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://kamikoliu.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
